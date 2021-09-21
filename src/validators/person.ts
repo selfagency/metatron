@@ -13,56 +13,56 @@ const catchErr = (msg: string) => {
 
 const validPerson = (person: Person): [boolean, Error[]] => {
   try {
-    if (typeof person !== 'object') {
-      throw new Error('`person` must be an object')
-    }
-
-    const { name, url, role, location, email, social_media } = person
-
-    if (!name) {
-      catchErr('`person.name` is required')
-    }
-
-    if (url) {
-      if (!validUrl(url)) {
-        catchErr('`person.url` must be a valid URL')
-      }
+    if (!is.object(person)) {
+      catchErr('`person` must be an object')
     } else {
-      catchErr('`person.url` is required')
-    }
+      const { name, url, role, location, email, social_media } = person
 
-    if (role) {
-      if (!is.string(role)) {
-        catchErr('`person.role` must be a string')
-      }
-    }
-
-    if (location) {
-      if (!is.string(location)) {
-        catchErr('`person.location` must be a string')
-      }
-    }
-
-    if (email) {
-      if (!validEmail(email)) {
-        catchErr('`person.email` must be a valid email address')
-      }
-    }
-
-    if (social_media) {
-      if (!is.array(social_media)) {
-        catchErr('`person.social_media` must be an array')
+      if (!name) {
+        catchErr('`person.name` is required')
       }
 
-      social_media.forEach(socialMedia => {
-        if (!is.string(socialMedia)) {
-          catchErr('`person.social_media` must be an array of strings')
+      if (url) {
+        if (!validUrl(url)) {
+          catchErr('`person.url` must be a valid URL')
         }
+      } else {
+        catchErr('`person.url` is required')
+      }
 
-        if (!validUrl(socialMedia)) {
-          catchErr('`person.social_media` must contain valid URLs')
+      if (role) {
+        if (!is.string(role)) {
+          catchErr('`person.role` must be a string')
         }
-      })
+      }
+
+      if (location) {
+        if (!is.string(location)) {
+          catchErr('`person.location` must be a string')
+        }
+      }
+
+      if (email) {
+        if (!validEmail(email)) {
+          catchErr('`person.email` must be a valid email address')
+        }
+      }
+
+      if (social_media) {
+        if (!is.array(social_media)) {
+          catchErr('`person.social_media` must be an array')
+        } else {
+          social_media.forEach(socialMedia => {
+            if (!is.string(socialMedia)) {
+              catchErr('`person.social_media` must be an array of strings')
+            }
+
+            if (!validUrl(socialMedia)) {
+              catchErr('`person.social_media` must contain valid URLs')
+            }
+          })
+        }
+      }
     }
 
     return validationErrors.length ? [false, validationErrors] : [true, []]

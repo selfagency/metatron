@@ -4,8 +4,8 @@ declare enum RunMode {
 }
 
 interface Settings {
-  mode: RunMode
-  expiry: number
+  mode?: RunMode
+  expiry?: number
 }
 
 export default Settings

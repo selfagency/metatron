@@ -1,6 +1,6 @@
-import { Url, UserAddress } from './generics.d'
+import { Url, UserAddress } from './generics'
 
-interface Person {
+interface Entity {
   name: string
   role?: string
   location?: string
@@ -9,4 +9,4 @@ interface Person {
   social_media?: Url[]
 }
 
-export default Person
+export default Entity

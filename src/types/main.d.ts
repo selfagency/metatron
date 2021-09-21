@@ -1,5 +1,5 @@
 import Ads from './ads.d'
-import Person from './person.d'
+import Entity from './entity.d'
 import Pwa from './pwa.d'
 import Robots from './robots.d'
 import Security from './security.d'
@@ -11,9 +11,9 @@ import Trust from './trust.d'
 interface Config {
   site: Site
   pwa?: Pwa
-  publisher?: Person
-  authors?: Person[]
-  credits?: Person[]
+  publisher?: Entity
+  authors?: Entity[]
+  credits?: Entity[]
   trust?: Trust
   stack?: Stack
   security?: Security
@@ -22,4 +22,4 @@ interface Config {
   settings: Settings
 }
 
-export { Site, Pwa, Person, Trust, Stack, Security, Robots, Ads, Config }
+export { Site, Pwa, Entity, Trust, Stack, Security, Robots, Ads, Config }

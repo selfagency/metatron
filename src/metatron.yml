@@ -1,0 +1,130 @@
+# https://journallist.net/wp-content/uploads/2020/12/trust.txt-specification-v-1-1.pdf
+# https://iabtechlab.com/wp-content/uploads/2021/03/ads.txt-1.0.3.pdf
+# http://www.robotstxt.org/robotstxt.html
+# https://datatracker.ietf.org/doc/html/draft-foudil-securitytxt-12
+# https://humanstxt.org/Standard.html
+# https://developer.mozilla.org/en-US/docs/Web/Manifest
+
+# validators
+# https://web.dev/robots-txt/
+
+site:
+  name: site_name
+  description: site_description
+  email: site_email
+  url: site_url
+  logo: site_logo_path (or URL)
+  default_image: site_default_image_path (or URL)
+  contact: site_contact_url
+  country: site_country_code
+  doctype: site_doc_type (eg. "HTML5")
+  languages:
+    - site_language_code[s] (eg. "en")
+  social_media:
+    - site_social_media_profile_url[s]
+  feeds:
+    rss: rss_feed_url
+    atom: atom_feed_url
+    json: json_feed_url
+
+pwa:
+  short_name: pwa_short_name
+  categories:
+    - pwa_category
+  start_url: pwa_start_url
+  scope: pwa_scope
+  appearance:
+    display_mode: pwa_display_mode
+    background_color: pwa_background_color
+    theme_color: pwa_theme_color
+    orientation: pwa_orientation
+    text_direction: pwa_text_direction (eg. "auto", "ltr", or "rtl")
+  shortcuts:
+    - name: pwa_shortcut_name
+      url: pwa_shortcut_url
+      description: pwa_shortcut_description
+  related_apps:
+    - platform: app_store (eg. "play" or "itunes")
+      url: app_store_item_url
+  prefer_related_apps: pwa_prefer_related_apps
+  iarc_rating_id: pwa_iarc_rating_id
+  screenshots:
+    - pwa_screenshot_path (or URL)
+
+publisher:
+  name: publisher_name
+  location: publisher_city_country
+  email: publisher_email
+  url: publisher_url
+  social_media:
+    - publisher_social_media_url[s]
+
+authors:
+  - name: author_name
+    role: author_role
+    location: author_city_country
+    email: author_email
+    url: author_url
+    social_media:
+      - author_social_media_url
+
+credits:
+  - name: credited_name
+    role: credited_role
+    email: credited_email
+    url: credited_url
+    social_media:
+      - credited_social_media_url
+
+trust:
+  affiliation:
+    - affiliate_url
+  controlled_by: controller_url
+  controls:
+    - controlled_urls
+  members:
+    - member_url
+
+stack:
+  components:
+    - packages_used
+  standards:
+    - standards_met (eg. "HTML5")
+  software:
+    - development_tools (eg. "Visual Studio Code")
+
+security:
+  policy: security_policy_url
+  contact:
+    email: security_contact_email
+    url: security_contact_url
+    pgp: security_contact_pgp_public_key_url
+
+robots:
+  sitemap: sitemap_index_url
+  allow:
+    - user_agent: user_agent (or *)
+      paths:
+        - path (or *)
+  disallow:
+    - user_agent: user_agent (or *)
+      paths:
+        - path (or *)
+  crawl_delay: crawl_delay_in_x_seconds (eg. 30)
+
+ads:
+  contact:
+    email: adops_contact_email
+    url: adops_contact_url
+  sellers:
+    - domain: seller_domain
+      publisher_id: seller_publisher_id
+      account_type: seller_account_type
+      cert_auth_id: seller_certification_authority_id
+      comment: seller_comment
+  inventory_parnters:
+    - inventory_partner_domain
+  subdomains:
+    - authorized_subdomain_referrer
+
+expiry: expires_in_x_days (eg. 60)

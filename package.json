@@ -1,0 +1,45 @@
+{
+  "name": "@selfagency/metatron",
+  "version": "0.1.0",
+  "description": "Metafile generator and middleware",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/selfagency/metatron.git"
+  },
+  "keywords": [
+    "security.txt",
+    "robots.txt",
+    "humans.txt",
+    "ads.txt",
+    "webmanifest"
+  ],
+  "author": "Daniel Sieradski <daniel@self.agency>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/selfagency/metatron/issues"
+  },
+  "homepage": "https://github.com/selfagency/metatron#readme",
+  "dependencies": {
+    "@sindresorhus/is": "^4.2.0",
+    "ajv": "^8.6.3",
+    "consola": "^2.15.3",
+    "ftconfig": "^1.1.7",
+    "is-ip": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.9.4",
+    "@typescript-eslint/eslint-plugin": "^4.31.2",
+    "@typescript-eslint/parser": "^4.31.2",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-gitignore": "^0.1.0",
+    "eslint-plugin-security": "^1.4.0",
+    "prettier": "^2.4.1",
+    "typescript": "^4.4.3"
+  }
+}

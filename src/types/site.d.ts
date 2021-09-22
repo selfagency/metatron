@@ -17,7 +17,7 @@ interface Site {
   contact?: UserAddress | Url
   country?: Country
   doctype?: DocType
-  language: Language
+  language?: Language
   social_media?: Url[]
   feeds?: {
     rss?: Path | Url

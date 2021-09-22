@@ -1,6 +1,7 @@
 import { errorOutput, validationErrors } from './errors'
 import generateAdsTxt from './generators/ads'
 import generateHumansTxt from './generators/humans'
+import generateLicenseTxt from './generators/license'
 import generateRobotsTxt from './generators/robots'
 import generateSecurityTxt from './generators/security'
 import generateTrustTxt from './generators/trust'
@@ -10,6 +11,7 @@ import logger from './logger'
 import { Config } from './types/main.d'
 import validAds from './validators/ads'
 import validHumans from './validators/humans'
+import validLicense from './validators/license'
 import validPwa from './validators/pwa'
 import validRobots from './validators/robots'
 import validSecurity from './validators/security'
@@ -17,40 +19,77 @@ import validSettings from './validators/settings'
 import validSite from './validators/site'
 import validTrust from './validators/trust'
 
-const exit = () => {
-  logger.error(errorOutput())
-  if (require.main === module) process.exit(1)
-}
-
 const main = (): void => {
-  try {
-    const config: Config | undefined = loadConfig()
+  const config: Config | undefined = loadConfig()
 
-    if (config) {
-      const { ads, robots, security, trust, pwa, publisher, authors, credits, site, settings } = config
+  if (config) {
+    const { ads, robots, security, trust, pwa, publisher, authors, credits, site, settings } = config
 
-      if (((settings && validSettings(settings)) || !settings) && site && validSite(site)) {
-        if (ads && validAds(ads)) generateAdsTxt(config)
-        if (robots && validRobots(robots)) generateRobotsTxt(config)
-        if (security && validSecurity(security)) generateSecurityTxt(config)
-        if (trust && validTrust(trust)) generateTrustTxt(config)
-        if (pwa && validPwa(pwa)) generateWebmanifest(config)
-        if ((publisher || authors || credits) && validHumans(publisher, authors, credits)) generateHumansTxt(config)
-
-        if (validationErrors.length) {
-          exit()
-        } else {
-          logger.success('Successfully validated `metatron.yml`')
-        }
-      } else {
-        exit()
+    // require valid settings and site config
+    const haveSettings = settings && validSettings(settings)
+    const haveSite = site && validSite(site)
+    if ((haveSettings || !settings) && haveSite) {
+      // ads.txt
+      const haveAds = ads && validAds(ads)
+      if (haveAds) {
+        generateAdsTxt(config)
       }
-    } else {
-      throw new Error('Error parsing Metatron configuration')
+
+      // humans.txt
+      const haveHumans = (publisher || authors || credits) && validHumans(config)
+      if (haveHumans) {
+        generateHumansTxt(config)
+      }
+
+      // license.txt
+      const haveLicense = settings.license && validLicense(settings.license)
+      if (haveLicense && haveHumans) {
+        generateLicenseTxt(config)
+      }
+
+      // robots.txt
+      const haveRobots = robots && validRobots(robots)
+      if (haveRobots) {
+        generateRobotsTxt(config)
+      }
+
+      // security.txt
+      const haveSecurity = security && validSecurity(security)
+      if (haveSecurity) {
+        generateSecurityTxt(config)
+      }
+
+      // trust.txt
+      const haveTrust = trust && validTrust(trust)
+      if (haveTrust) {
+        generateTrustTxt(config)
+      }
+
+      // webmanifest
+      const havePwa = pwa && validPwa(pwa)
+      if (havePwa && haveSite) {
+        generateWebmanifest(config)
+      }
     }
-  } catch (error) {
-    logger.error(error)
+
+    if (!validationErrors.length) {
+      logger.success('Successfully validated `metatron.yml`')
+    } else {
+      logger.error(errorOutput())
+    }
+  } else {
+    throw new Error('Unknown error parsing `metatron.yml`')
   }
 }
 
-main()
+// cli interface
+if (require.main === module) {
+  try {
+    main()
+  } catch (error) {
+    logger.error(error)
+    process.exit(1)
+  }
+}
+
+export default main

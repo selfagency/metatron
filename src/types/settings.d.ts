@@ -6,6 +6,7 @@ declare enum RunMode {
 interface Settings {
   mode?: RunMode
   expiry?: number
+  license?: string
 }
 
 export default Settings

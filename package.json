@@ -4,6 +4,9 @@
   "description": "Metafile generator and middleware",
   "main": "dist/index.js",
   "scripts": {
+    "clean": "rm -rf dist",
+    "build": "tsc",
+    "start": "node dist/main.js",
     "test": "jest"
   },
   "repository": {
@@ -26,10 +29,12 @@
   "dependencies": {
     "@sindresorhus/is": "^4.2.0",
     "ajv": "^8.6.3",
+    "atomically": "^1.7.0",
     "colorette": "^2.0.5",
     "consola": "^2.15.3",
     "ftconfig": "^1.1.7",
-    "is-ip": "^3.1.0"
+    "is-ip": "^3.1.0",
+    "spdx-license-list": "^6.4.0"
   },
   "devDependencies": {
     "@types/node": "^16.9.4",

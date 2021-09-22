@@ -1,4 +1,4 @@
-import logger from '../logger'
+import is from '@sindresorhus/is'
 
 const colors = [
   { name: 'Pink', hex: '#FFC0CB', rgb: 'RGB(255, 192, 203)' },
@@ -145,10 +145,10 @@ const colors = [
 ]
 
 const validColor = (color: string) => {
-  try {
-    return colors.find(c => c.name === color || c.hex === color) ? true : false
-  } catch (error) {
-    if (process.env.DEBUG) logger.debug(error)
+  if (color && is.string(color)) {
+    color = color.toLowerCase()
+    return colors.find(c => c.name.toLowerCase() === color || c.hex.toLowerCase() === color) ? true : false
+  } else {
     return false
   }
 }

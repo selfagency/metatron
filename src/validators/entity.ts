@@ -1,94 +1,70 @@
 import is from '@sindresorhus/is'
+import { catchErr, validationErrors } from '../errors'
 import logger from '../logger'
 import Entity from '../types/entity.d'
 import { validEmail, validUrl } from './generics'
 
-const validationErrors: Error[] = []
-
-const catchErr = (msg: string) => {
-  const error = new Error(msg)
-  validationErrors.push(error)
-  if (process.env.DEBUG) logger.debug(error)
-}
-
-const validEntities = (entities: Entity[]): [boolean, Error[]] => {
+const validEntities = (entities: Entity[]): boolean => {
   try {
     if (!is.array(entities)) {
-      catchErr('`authors` and/or `credits` must be an array')
+      catchErr('authors` and/or `credits', false, 'array', entities)
     } else {
       entities.forEach(entity => {
-        const [isValid, errors] = validEntity(entity)
-        if (!isValid) {
-          validationErrors.push(...errors)
-        }
+        validEntity(entity)
       })
     }
 
-    return validationErrors.length ? [false, validationErrors] : [true, []]
+    return !validationErrors.length
   } catch (error) {
     logger.error(error)
-    return [false, [<Error>error]]
+    return false
   }
 }
 
-const validEntity = (Entity: Entity): [boolean, Error[]] => {
+const validEntity = (entity: Entity): boolean => {
   try {
-    if (!is.object(Entity)) {
-      catchErr('`Entity` must be an object')
+    if (!is.object(entity)) {
+      catchErr('entity', false, 'object', entity)
     } else {
-      const { name, url, role, location, email, social_media } = Entity
+      const { name, url, role, location, email, social_media } = entity
 
-      if (!name) {
-        catchErr('`Entity.name` is required')
+      if (!name || !is.string(name)) {
+        catchErr('entity.name', true, 'string', name)
       }
 
-      if (url) {
-        if (!validUrl(url)) {
-          catchErr('`Entity.url` must be a valid URL')
-        }
-      } else {
-        catchErr('`Entity.url` is required')
+      if (!url || !validUrl(url)) {
+        catchErr('entity.url', true, 'URL', url)
       }
 
-      if (role) {
-        if (!is.string(role)) {
-          catchErr('`Entity.role` must be a string')
-        }
+      if (role && !is.string(role)) {
+        catchErr('entity.role', false, 'string', role)
       }
 
-      if (location) {
-        if (!is.string(location)) {
-          catchErr('`Entity.location` must be a string')
-        }
+      if (location && !is.string(location)) {
+        catchErr('entity.location', false, 'string', location)
       }
 
-      if (email) {
-        if (!validEmail(email)) {
-          catchErr('`Entity.email` must be a valid email address')
-        }
+      if (email && !validEmail(email)) {
+        catchErr('entity.email', false, 'email', email)
       }
 
       if (social_media) {
         if (!is.array(social_media)) {
-          catchErr('`Entity.social_media` must be an array')
+          catchErr('entity.social_media', false, 'array', social_media)
         } else {
           social_media.forEach(socialMedia => {
-            if (!is.string(socialMedia)) {
-              catchErr('`Entity.social_media` must be an array of strings')
-            }
-
             if (!validUrl(socialMedia)) {
-              catchErr('`Entity.social_media` must contain valid URLs')
+              catchErr('entity.social_media', false, 'URLs', socialMedia)
             }
           })
         }
       }
     }
 
-    return validationErrors.length ? [false, validationErrors] : [true, []]
+    return !validationErrors.length
   } catch (error) {
     logger.error(error)
-    return [false, [<Error>error]]
+    return false
   }
 }
 

@@ -1,17 +1,11 @@
 import is from '@sindresorhus/is'
+import { catchErr, validationErrors } from '../errors'
 import logger from '../logger'
 import Pwa from '../types/pwa.d'
 import { validColor, validPath, validUrl } from './generics'
 import validIcons from './icons'
 
-const validationErrors: Error[] = []
-
-const catchErr = (msg: string) => {
-  const error = new Error(msg)
-  validationErrors.push(error)
-  if (process.env.DEBUG) logger.debug(error)
-}
-
+const appPlatforms = ['play', 'itunes']
 const directions = ['auto', 'ltr', 'rtl']
 const displayModes = ['fullscreen', 'standalone', 'minimal-ui', 'browser']
 const orientations = [
@@ -24,12 +18,11 @@ const orientations = [
   'portrait-primary',
   'portrait-secondary'
 ]
-const appPlatforms = ['play', 'itunes']
 
-const validPwa = (pwa: Pwa): [boolean, Error[]] => {
+const validPwa = (pwa: Pwa): boolean => {
   try {
     if (!is.object(pwa)) {
-      catchErr('`pwa` must be an object')
+      catchErr('pwa', false, 'object', pwa)
     } else {
       const {
         short_name,
@@ -44,126 +37,86 @@ const validPwa = (pwa: Pwa): [boolean, Error[]] => {
         screenshots
       } = pwa
 
-      if (short_name) {
-        if (!is.string(pwa.short_name) || short_name.length > 48) {
-          catchErr('`pwa.short_name` must be a string less than 48 characters in length')
-        }
-      } else {
-        catchErr('`pwa.short_name` is required')
+      if (!short_name || !is.string(pwa.short_name) || short_name.length > 48) {
+        catchErr('pwa.short_name', true, 'string less than 48 characters in length', short_name)
       }
 
       if (categories) {
         if (!is.array(categories)) {
-          catchErr('`pwa.categories` must be an array')
+          catchErr('pwa.categories', false, 'array', categories)
         } else {
           categories.forEach((category: string) => {
             if (!is.string(category) || category.length > 48) {
-              catchErr('`pwa.categories` must be an array of strings, each less than 48 characters in length')
+              catchErr('pwa.categories', true, 'strings, each less than 48 characters in length', category)
             }
           })
         }
       }
 
-      if (start_url) {
-        if (!validUrl || !validPath) {
-          catchErr('`pwa.start_url` must be a valid path or URL')
-        }
-      } else {
-        catchErr('`pwa.start_url` is required')
+      if (!start_url || !validUrl(start_url) || !validPath(start_url)) {
+        catchErr('pwa.start_url', true, 'path or URL', start_url)
       }
 
-      if (scope) {
-        if (!validUrl || !validPath) {
-          catchErr('`pwa.scope` must be a valid path or URL')
-        }
+      if (scope && (!validUrl(scope) || !validPath(scope))) {
+        catchErr('pwa.scope', false, 'path or URL', scope)
       }
 
       if (appearance) {
         if (!is.object(appearance)) {
-          catchErr('`pwa.appearance` must be an object')
+          catchErr('pwa.appearance', false, 'object', appearance)
         } else {
           const { display_mode, background_color, theme_color, orientation, text_direction, icons } = appearance
 
-          if (display_mode) {
-            if (!is.string(display_mode) || !displayModes.includes(display_mode)) {
-              catchErr('`pwa.appearance.display_mode` must be one of: ' + displayModes.join(', '))
-            }
+          if (display_mode && (!is.string(display_mode) || !displayModes.includes(display_mode))) {
+            catchErr('pwa.appearance.display_mode', false, 'one of: ' + displayModes.join(', '), display_mode)
           }
 
-          if (background_color) {
-            if (!is.string(background_color) || !validColor(background_color)) {
-              catchErr('`pwa.appearance.background_color` must be a valid web-safe color')
-            }
+          if (background_color && (!is.string(background_color) || !validColor(background_color))) {
+            catchErr('pwa.appearance.background_color', false, 'web-safe color', background_color)
           }
 
-          if (theme_color) {
-            if (!is.string(theme_color) || !validColor(theme_color)) {
-              catchErr('`pwa.appearance.theme_color` must be a valid web-safe color')
-            }
+          if (theme_color && (!is.string(theme_color) || !validColor(theme_color))) {
+            catchErr('pwa.appearance.theme_color', false, 'web-safe color', theme_color)
           }
 
-          if (orientation) {
-            if (!is.string(orientation) || !orientations.includes(orientation)) {
-              catchErr('`pwa.appearance.orientation` must be one of: ' + orientations.join(', '))
-            }
+          if (orientation && (!is.string(orientation) || !orientations.includes(orientation))) {
+            catchErr('pwa.appearance.orientation', false, 'one of: ' + orientations.join(', '), orientation)
           }
 
-          if (text_direction) {
-            if (!is.string(text_direction) || !directions.includes(text_direction)) {
-              catchErr('`pwa.appearance.text_direction` must be one of: ' + directions.join(', '))
-            }
+          if (text_direction && (!is.string(text_direction) || !directions.includes(text_direction))) {
+            catchErr('pwa.appearance.text_direction', false, 'one of: ' + directions.join(', '), text_direction)
           }
 
           if (icons) {
-            const iconStatus: [boolean, Error[]] = validIcons(icons)
-
-            if (is.array(iconStatus) && !iconStatus[0] && is.array(iconStatus[1])) {
-              validationErrors.push(...iconStatus[1])
-            }
+            validIcons(icons)
           }
         }
       }
 
       if (shortcuts) {
         if (!is.array(shortcuts)) {
-          catchErr('`pwa.shortcuts` must be an array')
+          catchErr('pwa.shortcuts', false, 'array', shortcuts)
         } else {
           shortcuts.forEach(shortcut => {
             if (!is.object(shortcut)) {
-              catchErr('`pwa.shortcuts` must be an array of objects')
+              catchErr('pwa.shortcuts', true, 'array of objects', shortcut)
             } else {
               const { name, url, description, icons } = shortcut
 
-              if (name) {
-                if (!is.string(name)) {
-                  catchErr('`pwa.shortcuts.name` must be a string')
-                }
-              } else {
-                catchErr('`pwa.shortcuts.name` is required')
+              if (!name || !is.string(name)) {
+                catchErr('pwa.shortcuts.name', true, 'string')
               }
 
-              if (url) {
-                if (!validUrl || !validPath) {
-                  catchErr('`pwa.shortcuts.url` must be a valid path or URL')
-                }
-              } else {
-                catchErr('`pwa.shortcuts.url` is required')
+              if (!url || !validUrl || !validPath) {
+                catchErr('pwa.shortcuts.url', true, 'path or URL')
               }
 
-              if (description) {
-                if (!is.string(description)) {
-                  catchErr('`pwa.shortcuts.description` must be a string')
-                }
-              } else {
-                catchErr('`pwa.shortcuts.description` is required')
+              if (!description || !is.string(description)) {
+                catchErr('pwa.shortcuts.description', true, 'string')
               }
 
               if (icons) {
-                const iconStatus: [boolean, Error[]] = validIcons(icons)
-
-                if (is.array(iconStatus) && !iconStatus[0] && is.array(iconStatus[1])) {
-                  validationErrors.push(...iconStatus[1])
-                }
+                validIcons(icons)
               }
             }
           })
@@ -172,63 +125,51 @@ const validPwa = (pwa: Pwa): [boolean, Error[]] => {
 
       if (related_apps) {
         if (!is.array(related_apps)) {
-          catchErr('`pwa.related_apps` must be an array')
+          catchErr('pwa.related_apps', false, 'array', related_apps)
         } else {
-          related_apps.forEach(relatedApp => {
-            if (!is.object(relatedApp)) {
-              catchErr('`pwa.related_apps` must be an array of objects')
+          related_apps.forEach(related_app => {
+            if (!is.object(related_app)) {
+              catchErr('pwa.related_apps', true, 'array of objects', related_app)
             } else {
-              const { platform, url } = relatedApp
+              const { platform, url } = related_app
 
-              if (platform) {
-                if (!is.string(relatedApp.platform) || !appPlatforms.includes(platform)) {
-                  catchErr('`pwa.related_apps.platform must be one of:' + appPlatforms.join(', '))
-                }
-              } else {
-                catchErr('`pwa.related_apps.platform` is required')
+              if (!platform || !is.string(platform) || !appPlatforms.includes(platform)) {
+                catchErr('pwa.related_apps.platform', true, 'one of: ' + appPlatforms.join(', '), platform)
               }
 
-              if (url) {
-                if (!validUrl(url)) {
-                  catchErr('`pwa.related_apps.url` must be a valid URL')
-                }
-              } else {
-                catchErr('`pwa.related_apps.url` is required')
+              if (!url || !validUrl(url)) {
+                catchErr('pwa.related_apps.url', true, 'URL', url)
               }
             }
           })
         }
       }
 
-      if (prefer_related_apps) {
-        if (!is.boolean(prefer_related_apps)) {
-          catchErr('`pwa.prefer_related_apps` must be a boolean')
-        }
+      if (prefer_related_apps && !is.boolean(prefer_related_apps)) {
+        catchErr('pwa.prefer_related_apps', false, 'boolean', prefer_related_apps)
       }
 
-      if (iarc_rating_id) {
-        if (!is.string(iarc_rating_id)) {
-          catchErr('`pwa.iarc_rating_id` must be a string')
-        }
+      if (iarc_rating_id && !is.string(iarc_rating_id)) {
+        catchErr('pwa.iarc_rating_id', false, 'string', iarc_rating_id)
       }
 
       if (screenshots) {
         if (!is.array(screenshots)) {
-          catchErr('`pwa.screenshots` must be an array')
+          catchErr('pwa.screenshots', false, 'array', screenshots)
         } else {
           screenshots.forEach(screenshot => {
             if (!validUrl(screenshot) && !validPath(screenshot)) {
-              catchErr('`pwa.screenshots` must contain valid paths or URLs')
+              catchErr('pwa.screenshots', true, 'path or URL', screenshot)
             }
           })
         }
       }
     }
 
-    return validationErrors.length ? [false, validationErrors] : [true, []]
+    return !validationErrors.length
   } catch (error) {
     logger.error(error)
-    return [false, [<Error>error]]
+    return false
   }
 }
 

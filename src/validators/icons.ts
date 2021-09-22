@@ -1,63 +1,40 @@
 import is from '@sindresorhus/is'
+import { catchErr, validationErrors } from '../errors'
 import logger from '../logger'
 import { Icon } from '../types/pwa.d'
 import { validUrl } from './generics'
 
-const validationErrors: Error[] = []
-
-const catchErr = (msg: string) => {
-  const error = new Error(msg)
-  validationErrors.push(error)
-  if (process.env.DEBUG) logger.debug(error)
-}
-
-const validIcons = (icons: Icon[]): [boolean, Error[]] => {
+const validIcons = (icons: Icon[]): boolean => {
   try {
     if (!is.array(icons)) {
-      catchErr('`icons` must be an array')
+      catchErr('icons', false, 'array', icons)
     } else {
       icons.forEach((icon: Icon) => {
         if (!is.object(icon)) {
-          catchErr('`icons` must be an array of objects')
+          catchErr('icons', true, 'array of objects', icon)
         } else {
           const { src, size, type } = icon
+          const sizeRegex = new RegExp(/\d{1,4}x\d{1,4}/)
 
-          if (!src) {
-            catchErr('`icons` must have a `src` property')
+          if (!src || !validUrl(src)) {
+            catchErr('icons.src', true, 'path or URL', src)
           }
 
-          if (!validUrl(src)) {
-            catchErr('`icons.src` must be a valid path or URL')
+          if (!size || !is.string(size) || !sizeRegex.test(size)) {
+            catchErr('icons.sizes', true, 'string containing a valid size format (eg., `48x48`)', size)
           }
 
-          if (size) {
-            if (!is.string(size)) {
-              catchErr('`icons.sizes` must be a string')
-            }
-
-            const sizeRegex = new RegExp(/\d{1,4}x\d{1,4}/)
-            if (!sizeRegex.test(size)) {
-              catchErr('`icons.size` must be a valid size format (eg., `48x48`)')
-            }
-          }
-
-          if (type) {
-            if (!is.string(type)) {
-              catchErr('`icons.type` must be a string')
-            }
-
-            if (type.length > 48) {
-              catchErr('`icons.type` must be less than 48 characters')
-            }
+          if (!type || !is.string(type)) {
+            catchErr('icons.type', true, 'string containing a valid MIME type (eg., `image/png`', type)
           }
         }
       })
     }
 
-    return validationErrors.length ? [false, validationErrors] : [true, []]
+    return !validationErrors.length
   } catch (error) {
     logger.error(error)
-    return [false, [<Error>error]]
+    return false
   }
 }
 

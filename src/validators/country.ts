@@ -1,5 +1,4 @@
 import is from '@sindresorhus/is'
-import logger from '../logger'
 import Country from '../types/country.d'
 
 const countries = [
@@ -255,11 +254,7 @@ const countries = [
 ]
 
 const validCountry = (country: Country) => {
-  try {
-    return is.string(country) && country.length === 2 && countries.includes(country)
-  } catch (error) {
-    logger.error(error)
-  }
+  return is.string(country) && country.length === 2 && countries.includes(country)
 }
 
 export default validCountry

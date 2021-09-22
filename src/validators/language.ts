@@ -1,5 +1,4 @@
 import is from '@sindresorhus/is'
-import logger from '../logger'
 import Language from '../types/language.d'
 
 const languages = [
@@ -163,15 +162,11 @@ const languages = [
 ]
 
 const validLanguage = (language: Language) => {
-  try {
-    return (
-      is.string(language) &&
-      (language.length === 2 || language.length === 5 || language.length === 7) &&
-      languages.includes(language)
-    )
-  } catch (error) {
-    logger.error(error)
-  }
+  return (
+    is.string(language) &&
+    (language.length === 2 || language.length === 5 || language.length === 7) &&
+    languages.includes(language)
+  )
 }
 
 export default validLanguage

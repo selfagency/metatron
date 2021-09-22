@@ -11,19 +11,18 @@ declare enum DocType {
 interface Site {
   name: string
   description?: string
-  email?: UserAddress
   url: Url
   logo?: Path | Url
   default_image?: Path | Url
-  contact?: Url
+  contact?: UserAddress | Url
   country?: Country
   doctype?: DocType
   language: Language
   social_media?: Url[]
   feeds?: {
-    rss?: Url
-    atom?: Url
-    json?: Url
+    rss?: Path | Url
+    atom?: Path | Url
+    json?: Path | Url
   }
 }
 

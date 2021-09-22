@@ -1,59 +1,44 @@
 import is from '@sindresorhus/is'
+import { catchErr, validationErrors } from '../errors'
 import logger from '../logger'
 import Robots from '../types/robots.d'
 import { validPath, validUrl } from './generics'
 
-const validationErrors: Error[] = []
-
-const catchErr = (msg: string) => {
-  const error = new Error(msg)
-  validationErrors.push(error)
-  if (process.env.DEBUG) logger.debug(error)
-}
-
-const validRobots = (robots: Robots): [boolean, Error[]] => {
+const validRobots = (robots: Robots): boolean => {
   try {
     if (!is.object(robots)) {
-      catchErr('`robots` must be an object')
+      catchErr('robots', false, 'object', robots)
     } else {
       const { sitemap, crawl_delay, allow, disallow } = robots
 
-      if (sitemap) {
-        if (!validPath(sitemap) && !validUrl(sitemap)) {
-          catchErr('`robots.sitemap` must be a valid path or URL')
-        }
+      if (sitemap && !validPath(sitemap) && !validUrl(sitemap)) {
+        catchErr('robots.sitemap', false, 'path or URL', sitemap)
       }
 
-      if (crawl_delay) {
-        if (!is.number(crawl_delay)) {
-          catchErr('`robots.crawl_delay` must be a number')
-        }
+      if (crawl_delay && !is.number(crawl_delay)) {
+        catchErr('robots.crawl_delay', false, 'number', crawl_delay)
       }
 
       if (allow) {
         if (!is.array(allow)) {
-          catchErr('`robots.allow` must be an array')
+          catchErr('robots.allow', false, 'array', allow)
         } else {
           allow.forEach(directive => {
             if (!is.object(directive)) {
-              catchErr('`robots.allow` must be an array of objects')
+              catchErr('robots.allow', true, 'array of objects', directive)
             } else {
-              if (directive.user_agent) {
-                if (!is.string(directive.user_agent)) {
-                  catchErr('`robots.allow.user_agent` must be a string')
-                }
-              } else {
-                catchErr('`robots.allow` directives must have a `user_agent` property')
+              const { user_agent, paths } = directive
+
+              if (!user_agent || !is.string(user_agent)) {
+                catchErr('robots.allow.user_agent', true, 'string', user_agent)
               }
 
-              if (directive.paths) {
-                if (!is.array(directive.paths)) {
-                  catchErr('`robots.allow.paths` must be an array')
-                }
-
-                directive.paths.forEach(path => {
+              if (!paths || !is.array(paths)) {
+                catchErr('robots.allow.paths', true, 'array', paths)
+              } else {
+                paths.forEach(path => {
                   if (!validPath(path)) {
-                    catchErr('`robots.allow.paths` must be a valid path')
+                    catchErr('robots.allow.paths', true, 'paths', path)
                   }
                 })
               }
@@ -64,28 +49,24 @@ const validRobots = (robots: Robots): [boolean, Error[]] => {
 
       if (disallow) {
         if (!is.array(disallow)) {
-          catchErr('`robots.disallow` must be an array')
+          catchErr('robots.disallow', false, 'array', disallow)
         } else {
           disallow.forEach(directive => {
             if (!is.object(directive)) {
-              catchErr('`robots.disallow` must be an array of objects')
+              catchErr('robots.disallow', true, 'array of objects', directive)
             } else {
-              if (directive.user_agent) {
-                if (!is.string(directive.user_agent)) {
-                  catchErr('`robots.disallow.user_agent` must be a string')
-                }
-              } else {
-                catchErr('`robots.disallow` directives require a `user_agent` property')
+              const { user_agent, paths } = directive
+
+              if (!user_agent || !is.string(user_agent)) {
+                catchErr('robots.disallow.user_agent', true, 'string', user_agent)
               }
 
-              if (directive.paths) {
-                if (!is.array(directive.paths)) {
-                  catchErr('`robots.disallow.paths` must be an array')
-                }
-
-                directive.paths.forEach(path => {
+              if (!paths || !is.array(paths)) {
+                catchErr('robots.disallow.paths', true, 'array', paths)
+              } else {
+                paths.forEach(path => {
                   if (!validPath(path)) {
-                    catchErr('`robots.disallow.paths` must contain valid paths')
+                    catchErr('robots.disallow.paths', true, 'paths', path)
                   }
                 })
               }
@@ -95,10 +76,10 @@ const validRobots = (robots: Robots): [boolean, Error[]] => {
       }
     }
 
-    return validationErrors.length ? [false, validationErrors] : [true, []]
+    return !validationErrors.length
   } catch (error) {
     logger.error(error)
-    return [false, [<Error>error]]
+    return false
   }
 }
 

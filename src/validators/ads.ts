@@ -16,37 +16,38 @@ const validAds = (ads: Ads): boolean => {
     if (sellers) {
       if (!is.array(sellers)) {
         catchErr('ads.sellers', true, 'array', sellers)
-      } else {
-        sellers.forEach(seller => {
-          if (!is.object(seller)) {
-            catchErr('ads.sellers', true, 'array of objects', seller)
-          } else {
-            const { domain, publisher_id, account_type, cert_auth_id, comment } = seller
+        return false
+      }
 
-            if (!domain || !validHostname(domain)) {
-              catchErr('ads.sellers.domain', true, 'hostname', domain)
-            }
+      sellers.forEach(seller => {
+        if (!is.object(seller)) {
+          catchErr('ads.sellers', true, 'array of objects', seller)
+        } else {
+          const { domain, publisher_id, account_type, cert_auth_id, comment } = seller
 
-            if (!publisher_id || !is.string(publisher_id)) {
-              catchErr('ads.sellers.publisher_id', true, 'string', publisher_id)
-            }
+          if (!domain || !validHostname(domain)) {
+            catchErr('ads.sellers.domain', true, 'hostname', domain)
+          }
 
-            if (!account_type || !is.string(account_type) || !accountTypes.includes(account_type)) {
-              catchErr('ads.sellers.account_type', true, 'one of: ' + accountTypes.join(', '), account_type)
-            }
+          if (!publisher_id || !is.string(publisher_id)) {
+            catchErr('ads.sellers.publisher_id', true, 'string', publisher_id)
+          }
 
-            if (cert_auth_id) {
-              if (!is.string(cert_auth_id)) {
-                catchErr('ads.sellers.cert_auth_id', false, 'string', cert_auth_id)
-              }
-            }
+          if (!account_type || !is.string(account_type) || !accountTypes.includes(account_type)) {
+            catchErr('ads.sellers.account_type', true, 'one of: ' + accountTypes.join(', '), account_type)
+          }
 
-            if (comment && !is.string(comment)) {
-              catchErr('ads.sellers.comment', false, 'string', comment)
+          if (cert_auth_id) {
+            if (!is.string(cert_auth_id)) {
+              catchErr('ads.sellers.cert_auth_id', false, 'string', cert_auth_id)
             }
           }
-        })
-      }
+
+          if (comment && !is.string(comment)) {
+            catchErr('ads.sellers.comment', false, 'string', comment)
+          }
+        }
+      })
     } else {
       catchErr('ads.sellers', true, 'array', sellers)
     }

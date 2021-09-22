@@ -27,13 +27,11 @@ test('robots - valid robots', () => {
 test('robots - valid robots.sitemap', () => {
   clearErrors()
 
-  const isValid = validRobots({
-    sitemap: '/sitemap.xml'
-  })
-
-  console.log(errorOutput())
-
-  expect(isValid).toBe(true)
+  expect(
+    validRobots({
+      sitemap: '/sitemap.xml'
+    })
+  ).toBe(true)
 })
 
 test('robots - invalid robots.sitemap', () => {
@@ -68,6 +66,7 @@ test('robots - invalid robots.crawl_delay', () => {
 
 test('robots - valid robots.directive', () => {
   clearErrors()
+
   expect(
     validRobots({
       allow: [
@@ -82,6 +81,7 @@ test('robots - valid robots.directive', () => {
 
 test('robots - invalid robots.directive', () => {
   clearErrors()
+
   expect(
     validRobots({
       allow: ['snarf']
@@ -91,6 +91,7 @@ test('robots - invalid robots.directive', () => {
 
 test('robots - invalid robots.directive type', () => {
   clearErrors()
+
   expect(
     validRobots({
       disallow: 'snarf'
@@ -100,6 +101,7 @@ test('robots - invalid robots.directive type', () => {
 
 test('robots - invalid robots.directive.user_agent', () => {
   clearErrors()
+
   expect(
     validRobots({
       allow: [
@@ -114,6 +116,7 @@ test('robots - invalid robots.directive.user_agent', () => {
 
 test('robots - valid robots.directive.paths', () => {
   clearErrors()
+
   expect(
     validRobots({
       allow: [
@@ -128,6 +131,7 @@ test('robots - valid robots.directive.paths', () => {
 
 test('robots - invalid robots.directive.paths', () => {
   clearErrors()
+
   expect(
     validRobots({
       allow: [
@@ -142,6 +146,7 @@ test('robots - invalid robots.directive.paths', () => {
 
 test('robots - invalid robots.directive.paths.path', () => {
   clearErrors()
+
   expect(
     validRobots({
       allow: [

@@ -11,8 +11,22 @@ const validSite = (site: Site): boolean => {
     if (!is.object(site)) {
       catchErr('site', true, 'object', site)
     } else {
-      const { name, description, url, logo, default_image, contact, country, doctype, language, social_media, feeds } =
-        site
+      const {
+        name,
+        description,
+        url,
+        logo,
+        default_image,
+        contact,
+        country,
+        doctype,
+        language,
+        social_media,
+        feeds,
+        privacy_policy,
+        acceptable_use_policy,
+        terms_of_service
+      } = site
 
       if (!name || !is.string(name)) {
         catchErr('site.name', true, 'string', name)
@@ -68,18 +82,34 @@ const validSite = (site: Site): boolean => {
         } else {
           const { rss, atom, json } = feeds
 
-          if (rss && !validUrl(rss) && !validPath(rss)) {
-            catchErr('site.feeds.rss', false, 'path or URL', rss)
-          }
+          if (rss || atom || json) {
+            if (rss && !validUrl(rss) && !validPath(rss)) {
+              catchErr('site.feeds.rss', false, 'path or URL', rss)
+            }
 
-          if (atom && !validUrl(atom) && !validPath(atom)) {
-            catchErr('site.feeds.atom', false, 'path or URL', atom)
-          }
+            if (atom && !validUrl(atom) && !validPath(atom)) {
+              catchErr('site.feeds.atom', false, 'path or URL', atom)
+            }
 
-          if (json && !validUrl(json) && !validPath(json)) {
-            catchErr('site.feeds.json', false, 'path or URL', json)
+            if (json && !validUrl(json) && !validPath(json)) {
+              catchErr('site.feeds.json', false, 'path or URL', json)
+            }
+          } else {
+            catchErr('site.feeds', true, 'URL', feeds)
           }
         }
+      }
+
+      if (privacy_policy && !validUrl(privacy_policy) && !validPath(privacy_policy)) {
+        catchErr('site.privacy_policy', false, 'path or URL', privacy_policy)
+      }
+
+      if (acceptable_use_policy && !validUrl(acceptable_use_policy) && !validPath(acceptable_use_policy)) {
+        catchErr('site.acceptable_use_policy', false, 'path or URL', acceptable_use_policy)
+      }
+
+      if (terms_of_service && !validUrl(terms_of_service) && !validPath(terms_of_service)) {
+        catchErr('site.terms_of_service', false, 'path or URL', terms_of_service)
       }
     }
 

@@ -24,6 +24,9 @@ interface Site {
     atom?: Path | Url
     json?: Path | Url
   }
+  privacy_policy?: Path | Url
+  acceptable_use_policy?: Path | Url
+  terms_of_service?: Path | Url
 }
 
 export default Site

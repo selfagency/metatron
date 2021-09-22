@@ -37,10 +37,12 @@ const validUrl = (url: string): boolean => {
     'xmpp'
   ]
 
-  if (url && is.string(url) && is.urlString(url)) {
+  if (url && is.urlString(url)) {
     const prefix = url.split(':')[0]
-    const split = url.split('.')
-    const suffix = split[split.length - 1].split('/')[0]
+
+    url = url.replace(prefix + ':', '').replace('//', '')
+
+    const suffix = url.includes('/') ? url.split('/')[0].split('.')[1] : url.split('.')[1]
 
     return uriPrefixes.includes(prefix) && validTld(suffix)
   } else {

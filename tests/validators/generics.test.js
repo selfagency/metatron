@@ -220,6 +220,12 @@ test('generics - valid URL', () => {
   expect(validUrl('https://hello.com')).toBe(true)
 })
 
+test('generics - valid URL with path', () => {
+  clearErrors()
+
+  expect(validUrl('https://hello.com/icons/icon.png')).toBe(true)
+})
+
 test('generics - invalid URL', () => {
   clearErrors()
 

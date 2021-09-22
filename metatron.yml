@@ -8,6 +8,13 @@
 # validators
 # https://web.dev/robots-txt/
 
+settings:
+  mode: run_mode
+  expiry: expires_in_x_days (eg. 60)
+  path: output_dir
+  license: license_identifier
+  favicon: generate_favicons
+
 site:
   name: site_name
   description: site_description
@@ -26,6 +33,9 @@ site:
     rss: rss_feed_url
     atom: atom_feed_url
     json: json_feed_url
+  privacy_policy: privacy_policy_url
+  acceptable_use_policy: acceptable_use_url
+  terms_of_service: terms_of_service_url
 
 pwa:
   short_name: pwa_short_name
@@ -94,14 +104,13 @@ stack:
     - development_tools (eg. "Visual Studio Code")
 
 security:
-  policy: security_policy_url
-  contact:
-    email: security_contact_email
-    url: security_contact_url
-    pgp: security_contact_pgp_public_key_url
+  reporting_policy: security_policy_url
+  contact: security_contact_email_or_url
+  public_key: security_contact_pgp_public_key_url
 
 robots:
   sitemap: sitemap_index_url
+  crawl_delay: crawl_delay_in_x_seconds (eg. 30)
   allow:
     - user_agent: user_agent (or *)
       paths:
@@ -110,12 +119,9 @@ robots:
     - user_agent: user_agent (or *)
       paths:
         - path (or *)
-  crawl_delay: crawl_delay_in_x_seconds (eg. 30)
 
 ads:
-  contact:
-    email: adops_contact_email
-    url: adops_contact_url
+  contact: adops_contact_email_or_url
   sellers:
     - domain: seller_domain
       publisher_id: seller_publisher_id
@@ -126,5 +132,3 @@ ads:
     - inventory_partner_domain
   subdomains:
     - authorized_subdomain_referrer
-
-expiry: expires_in_x_days (eg. 60)

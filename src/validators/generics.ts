@@ -7,6 +7,7 @@ import validLanguage from './generics/language'
 import validMimeType from './generics/mime'
 import validPath from './generics/path'
 import validTld from './generics/tld'
+import validUri from './generics/uri'
 import validUrl from './generics/url'
 
 export {
@@ -19,5 +20,6 @@ export {
   validMimeType,
   validPath,
   validTld,
+  validUri,
   validUrl
 }

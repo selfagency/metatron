@@ -2,7 +2,7 @@ import is from '@sindresorhus/is'
 import { catchErr, validationErrors } from '../errors'
 import logger from '../logger'
 import Security from '../types/security.d'
-import { validEmail, validPath, validUrl } from './generics'
+import { validEmail, validPath, validUri, validUrl } from './generics'
 
 const validSecurity = (security: Security): boolean => {
   try {
@@ -15,7 +15,7 @@ const validSecurity = (security: Security): boolean => {
         catchErr('security.policy', false, 'URL', policy)
       }
 
-      if (contact && !validUrl(contact) && !validEmail(contact)) {
+      if (contact && !validUrl(contact) && !validUri(contact) && !validEmail(contact)) {
         catchErr('security.contact', true, 'email or URL', contact)
       }
 

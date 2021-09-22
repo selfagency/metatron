@@ -1,7 +1,7 @@
-import { Path } from './generics.d'
+import { Path, Url } from './generics.d'
 
 interface Robots {
-  sitemap?: string
+  sitemap?: Path | Url
   crawl_delay?: number
   allow?: {
     user_agent: string

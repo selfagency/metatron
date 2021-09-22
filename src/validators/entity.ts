@@ -1,7 +1,7 @@
 import is from '@sindresorhus/is'
 import { catchErr, validationErrors } from '../errors'
 import Entity from '../types/entity.d'
-import { validEmail, validUrl } from './generics'
+import { validEmail, validUri, validUrl } from './generics'
 
 const validEntities = (entities: Entity[]): boolean => {
   if (!is.array(entities) || !entities.length) {
@@ -19,7 +19,7 @@ const validEntity = (entity: Entity): boolean => {
   if (!is.object(entity)) {
     catchErr('entity', false, 'object', entity)
   } else {
-    const { name, url, role, location, email, social_media } = entity
+    const { name, url, role, location, contact, social_media } = entity
 
     if (!name || !is.string(name)) {
       catchErr('entity.name', true, 'string', name)
@@ -37,8 +37,8 @@ const validEntity = (entity: Entity): boolean => {
       catchErr('entity.location', false, 'string', location)
     }
 
-    if (email && !validEmail(email)) {
-      catchErr('entity.email', false, 'email', email)
+    if (contact && !validEmail(contact) && !validUrl(contact) && !validUri(contact)) {
+      catchErr('entity.contact', false, 'contact', contact)
     }
 
     if (social_media) {

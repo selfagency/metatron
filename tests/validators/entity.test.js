@@ -111,26 +111,86 @@ test('entity - invalid entity location', () => {
   ).toBe(false)
 })
 
-test('entity - valid entity email', () => {
+test('entity - valid entity contact (email)', () => {
   clearErrors()
 
   expect(
     validEntity({
       name: 'John Doe',
       url: 'http://example.com',
-      email: 'hello@test.com'
+      contact: 'hello@test.com'
     })
   ).toBe(true)
 })
 
-test('entity - invalid entity email', () => {
+test('entity - invalid entity contact (email)', () => {
   clearErrors()
 
   expect(
     validEntity({
       name: 'John Doe',
       url: 'http://example.com',
-      email: 'arf'
+      contact: 'hello@test'
+    })
+  ).toBe(false)
+})
+
+test('entity - valid entity contact (URI)', () => {
+  clearErrors()
+
+  expect(
+    validEntity({
+      name: 'John Doe',
+      url: 'http://example.com',
+      contact: 'mailto:test@test.com'
+    })
+  ).toBe(true)
+})
+
+test('entity - invalid entity contact (URI)', () => {
+  clearErrors()
+
+  expect(
+    validEntity({
+      name: 'John Doe',
+      url: 'http://example.com',
+      contact: 'mail:test@test.com'
+    })
+  ).toBe(false)
+})
+
+test('entity - valid entity contact (URL)', () => {
+  clearErrors()
+
+  expect(
+    validEntity({
+      name: 'John Doe',
+      url: 'http://example.com',
+      contact: 'http://example.com/contact'
+    })
+  ).toBe(true)
+})
+
+test('entity - invalid entity contact (URL)', () => {
+  clearErrors()
+
+  expect(
+    validEntity({
+      name: 'John Doe',
+      url: 'http://example.com',
+      contact: 'httl://example.com/contact'
+    })
+  ).toBe(false)
+})
+
+test('entity - invalid entity contact', () => {
+  clearErrors()
+
+  expect(
+    validEntity({
+      name: 'John Doe',
+      url: 'http://example.com',
+      contact: 'arf'
     })
   ).toBe(false)
 })

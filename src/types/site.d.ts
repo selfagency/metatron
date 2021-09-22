@@ -1,5 +1,5 @@
 import Country from './country.d'
-import { Path, Url, UserAddress } from './generics.d'
+import { Path, Uri, Url, UserAddress } from './generics.d'
 import Language from './language'
 
 declare enum DocType {
@@ -14,7 +14,7 @@ interface Site {
   url: Url
   logo?: Path | Url
   default_image?: Path | Url
-  contact?: UserAddress | Url
+  contact?: UserAddress | Url | Uri
   country?: Country
   doctype?: DocType
   language?: Language

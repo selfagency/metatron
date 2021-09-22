@@ -1,7 +1,7 @@
-import { DnsAddress, Url, UserAddress } from './generics.d'
+import { DnsAddress, Uri, Url, UserAddress } from './generics.d'
 
 interface Ads {
-  contact: UserAddress | Url
+  contact: UserAddress | Url | Uri
   sellers: {
     domain: DnsAddress
     publisher_id: string

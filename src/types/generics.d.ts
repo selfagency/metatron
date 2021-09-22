@@ -1,5 +1,4 @@
 import { Colors, HexColors } from './colors'
-import Tlds from './tlds'
 
 declare enum MimeTypes {
   bmp = 'bmp',
@@ -12,9 +11,21 @@ declare enum MimeTypes {
   webp = 'webp'
 }
 
-declare enum Uris {
+declare enum LocalUris {
   callto = 'callto',
   dav = 'dav',
+  facetime = 'facetime',
+  jabber = 'jabber',
+  mailto = 'mailto',
+  sip = 'sip',
+  sips = 'sips',
+  skype = 'skype',
+  sms = 'sms',
+  tel = 'tel',
+  xmpp = 'xmpp'
+}
+
+declare enum Uris {
   facetime = 'facetime',
   feed = 'feed',
   ftp = 'ftp',
@@ -26,41 +37,33 @@ declare enum Uris {
   irc = 'irc',
   irc6 = 'irc6',
   ircs = 'ircs',
-  jabber = 'jabber',
-  mailto = 'mailto',
   mumble = 'mumble',
   rtmp = 'rtmp',
   rtsp = 'rtsp',
   sftp = 'sftp',
-  sip = 'sip',
-  sips = 'sips',
-  skype = 'skype',
   smb = 'smb',
-  sms = 'sms',
   ssh = 'ssh',
   svn = 'svn',
-  tel = 'tel',
   telnet = 'telnet',
   vnc = 'vnc',
   webcal = 'webcal',
-  ws = 'ws',
-  xmpp = 'xmpp'
+  ws = 'ws'
 }
 
 /* URL prefix */
-declare type Uri = `${Uris}${':' | '://'}`
+declare type Uri = `${LocalUris}:${string}`
 
 /* ipv4 */
 declare type IpAddress = `${number}.${number}.${number}.${number}`
 
 /* hostname */
-declare type DnsAddress = `${string}.${Tlds}`
+declare type DnsAddress = `${string}.${string}`
 
 /* email or login */
 declare type UserAddress = `${string}@${IpAddress | DnsAddress}`
 
 /* uri */
-declare type Url = `${Uri}${IpAddress | DnsAddress}${string}`
+declare type Url = `${Uris}://${IpAddress | DnsAddress}${string}`
 
 /* path beginning with / or ./ */
 declare type Path = `${'/' | './'}${string | null}`
@@ -77,4 +80,4 @@ declare type HexColor = `#${HexColors}`
 /* color string, eg. Red */
 declare type Color = `${Colors}`
 
-export { IpAddress, DnsAddress, Color, HexColor, MimeType, UserAddress, Url, Path, SizeString }
+export { IpAddress, DnsAddress, Color, HexColor, MimeType, UserAddress, Uri, Url, Path, SizeString }

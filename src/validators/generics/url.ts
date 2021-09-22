@@ -3,9 +3,6 @@ import validTld from './tld'
 
 const validUrl = (url: string): boolean => {
   const uriPrefixes = [
-    'callto',
-    'dav',
-    'facetime',
     'feed',
     'ftp',
     'gemini',
@@ -16,31 +13,24 @@ const validUrl = (url: string): boolean => {
     'irc',
     'irc6',
     'ircs',
-    'jabber',
-    'mailto',
     'mumble',
     'rtmp',
     'rtsp',
     'sftp',
-    'sip',
-    'sips',
-    'skype',
     'smb',
-    'sms',
     'ssh',
     'svn',
-    'tel',
     'telnet',
     'vnc',
     'webcal',
-    'ws',
-    'xmpp'
+    'ws'
   ]
 
   if (url && is.urlString(url)) {
     const prefix = url.split(':')[0]
 
-    url = url.replace(prefix + ':', '').replace('//', '')
+    url = url.replace(new RegExp(prefix + ':'), '')
+    url = url.replace(new RegExp('//'), '')
 
     const suffix = url.includes('/') ? url.split('/')[0].split('.')[1] : url.split('.')[1]
 

@@ -2,7 +2,7 @@ import is from '@sindresorhus/is'
 import { catchErr, validationErrors } from '../errors'
 import logger from '../logger'
 import Site from '../types/site.d'
-import { validCountry, validEmail, validLanguage, validPath, validUrl } from './generics'
+import { validCountry, validEmail, validLanguage, validPath, validUri, validUrl } from './generics'
 
 const validSite = (site: Site): boolean => {
   try {
@@ -48,7 +48,7 @@ const validSite = (site: Site): boolean => {
         catchErr('site.default_image', false, 'path or URL', default_image)
       }
 
-      if (contact && !validEmail(contact) && !validUrl(contact)) {
+      if (contact && !validEmail(contact) && !validUri(contact) && !validUrl(contact)) {
         catchErr('site.contact', false, 'email or URL', contact)
       }
 

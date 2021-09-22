@@ -56,11 +56,12 @@ const validRobots = (robots: Robots): boolean => {
         validDirective(directive, 'disallow')
       })
     }
+
+    return !validationErrors.length
   } else {
     catchErr('robots', false, 'object', robots)
+    return false
   }
-
-  return !validationErrors.length
 }
 
 export default validRobots

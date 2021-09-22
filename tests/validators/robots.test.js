@@ -28,7 +28,7 @@ test('robots - valid robots.sitemap', () => {
   clearErrors()
 
   const isValid = validRobots({
-    sitemap: 'https://example.com/sitemap.xml'
+    sitemap: '/sitemap.xml'
   })
 
   console.log(errorOutput())

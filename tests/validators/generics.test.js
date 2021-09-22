@@ -5,6 +5,7 @@ const {
   validHostname,
   validIp,
   validLanguage,
+  validLicense,
   validMimeType,
   validPath,
   validUrl
@@ -182,13 +183,37 @@ test('generics - invalid langauge', () => {
 test('generics - invalid langauge type', () => {
   clearErrors()
 
-  expect(validLanguage(123456)).toBe(false)
+  expect(validLanguage({})).toBe(false)
 })
 
 test('generics - no language', () => {
   clearErrors()
 
   expect(validLanguage()).toBe(false)
+})
+
+test('generics - valid license', () => {
+  clearErrors()
+
+  expect(validLicense('MIT')).toBe(true)
+})
+
+test('generics - invalid license', () => {
+  clearErrors()
+
+  expect(validLicense('NOPE')).toBe(false)
+})
+
+test('generics - invalid license type', () => {
+  clearErrors()
+
+  expect(validLicense(123456)).toBe(false)
+})
+
+test('generics - no license', () => {
+  clearErrors()
+
+  expect(validLicense()).toBe(false)
 })
 
 test('generics - valid mime type', () => {

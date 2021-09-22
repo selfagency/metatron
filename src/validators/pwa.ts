@@ -19,9 +19,7 @@ const orientations = [
 ]
 
 const validPwa = (pwa: Pwa): boolean => {
-  if (!is.object(pwa)) {
-    catchErr('pwa', false, 'object', pwa)
-  } else {
+  if (is.object(pwa)) {
     const {
       short_name,
       categories,
@@ -162,9 +160,12 @@ const validPwa = (pwa: Pwa): boolean => {
         })
       }
     }
-  }
 
-  return !validationErrors.length
+    return !validationErrors.length
+  } else {
+    catchErr('pwa', false, 'object', pwa)
+    return false
+  }
 }
 
 export default validPwa

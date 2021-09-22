@@ -1,39 +1,33 @@
 import is from '@sindresorhus/is'
 import { catchErr, validationErrors } from '../errors'
-import logger from '../logger'
 import Settings from '../types/settings.d'
-import { validPath } from './generics'
-import validLicense from './license'
+import { validLicense, validPath } from './generics'
 
 const validSettings = (settings: Settings): boolean => {
-  try {
-    const runModes = ['ci', 'generator', 'middleware']
+  const runModes = ['ci', 'generator', 'middleware']
 
-    if (!is.object(settings)) {
-      catchErr('settings', false, 'object', settings)
-    } else {
-      const { mode, expiry, license, output_dir, favicon } = settings
+  if (is.object(settings)) {
+    const { mode, expiry, license, output_dir, favicon } = settings
 
-      if (mode && (!is.string(mode) || !runModes.includes(mode))) {
-        catchErr('settings.mode', false, 'one of: ' + runModes.join(', '), mode)
-      }
+    if (mode && (!is.string(mode) || !runModes.includes(mode))) {
+      catchErr('settings.mode', false, 'one of: ' + runModes.join(', '), mode)
+    }
 
-      if (expiry && !is.number(expiry)) {
-        catchErr('settings.expiry', false, 'number', expiry)
-      }
+    if (expiry && !is.number(expiry)) {
+      catchErr('settings.expiry', false, 'number', expiry)
+    }
 
-      if (license && !validLicense(license)) {
-        catchErr('settings.license', false, 'license identifier', license)
-      }
+    if (license && !validLicense(license)) {
+      catchErr('settings.license', false, 'license identifier', license)
+    }
 
-      if (output_dir && !validPath(output_dir)) {
-        catchErr('settings.output_dir', false, 'path', output_dir)
-      }
+    if (output_dir && !validPath(output_dir)) {
+      catchErr('settings.output_dir', false, 'path', output_dir)
     }
 
     return !validationErrors.length
-  } catch (error) {
-    logger.error(error)
+  } else {
+    catchErr('settings', false, 'object', settings)
     return false
   }
 }

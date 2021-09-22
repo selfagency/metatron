@@ -6,9 +6,7 @@ import { validEmail, validHostname, validUrl } from './generics'
 const accountTypes = ['DIRECT', 'RESELLER']
 
 const validAds = (ads: Ads): boolean => {
-  if (!is.object(ads)) {
-    catchErr('ads', false, 'object', ads)
-  } else {
+  if (is.object(ads)) {
     const { contact, sellers, inventory_partners, subdomains } = ads
 
     if (!contact || (!validEmail(contact) && !validUrl(contact))) {
@@ -50,35 +48,40 @@ const validAds = (ads: Ads): boolean => {
         })
       }
     } else {
-      catchErr('ads.sellers', true)
+      catchErr('ads.sellers', true, 'array', sellers)
     }
 
     if (inventory_partners) {
       if (!is.array(inventory_partners)) {
         catchErr('ads.inventory_partners', false, 'array', inventory_partners)
-      } else {
-        inventory_partners.forEach(partner => {
-          if (!validHostname(partner)) {
-            catchErr('ads.inventory_partners', true, 'hostname', partner)
-          }
-        })
+        return false
       }
+
+      inventory_partners.forEach(partner => {
+        if (!validHostname(partner)) {
+          catchErr('ads.inventory_partners', true, 'hostname', partner)
+        }
+      })
     }
 
     if (subdomains) {
       if (!is.array(subdomains)) {
         catchErr('ads.subdomains', false, 'array', subdomains)
-      } else {
-        subdomains.forEach(subdomain => {
-          if (!validHostname(subdomain)) {
-            catchErr('ads.subdomains', true, 'hostname', subdomain)
-          }
-        })
+        return false
       }
-    }
-  }
 
-  return !validationErrors.length
+      subdomains.forEach(subdomain => {
+        if (!validHostname(subdomain)) {
+          catchErr('ads.subdomains', true, 'hostname', subdomain)
+        }
+      })
+    }
+
+    return !validationErrors.length
+  } else {
+    catchErr('ads', false, 'object', ads)
+    return false
+  }
 }
 
 export default validAds

@@ -165,7 +165,25 @@ test('ads - bad seller comment', () => {
   ).toBe(false)
 })
 
-test('ads - no inventory partners array', () => {
+test('ads - valid inventory_partners', () => {
+  clearErrors()
+
+  expect(
+    validAds({
+      contact: 'adops@test.com',
+      sellers: [
+        {
+          domain: 'hello.com',
+          publisher_id: 'xyz9871',
+          account_type: 'RESELLER'
+        }
+      ],
+      inventory_partners: ['hello.com']
+    })
+  ).toBe(true)
+})
+
+test('ads - invalid inventory_partners type', () => {
   clearErrors()
 
   expect(
@@ -183,7 +201,7 @@ test('ads - no inventory partners array', () => {
   ).toBe(false)
 })
 
-test('ads - bad inventory partners array', () => {
+test('ads - bad inventory_partners array', () => {
   clearErrors()
 
   expect(

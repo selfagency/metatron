@@ -16,9 +16,7 @@ const validEntities = (entities: Entity[]): boolean => {
 }
 
 const validEntity = (entity: Entity): boolean => {
-  if (!is.object(entity)) {
-    catchErr('entity', false, 'object', entity)
-  } else {
+  if (is.object(entity)) {
     const { name, url, role, location, contact, social_media } = entity
 
     if (!name || !is.string(name)) {
@@ -52,9 +50,12 @@ const validEntity = (entity: Entity): boolean => {
         })
       }
     }
-  }
 
-  return !validationErrors.length
+    return !validationErrors.length
+  } else {
+    catchErr('entity', false, 'object', entity)
+    return false
+  }
 }
 
 export default validEntity

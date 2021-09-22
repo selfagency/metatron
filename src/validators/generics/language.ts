@@ -162,11 +162,7 @@ const languages = [
 ]
 
 const validLanguage = (language: Language) => {
-  return (
-    is.string(language) &&
-    (language.length === 2 || language.length === 5 || language.length === 7) &&
-    languages.includes(language)
-  )
+  return is.string(language) && languages.includes(language)
 }
 
 export default validLanguage

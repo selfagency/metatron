@@ -4,9 +4,7 @@ import { Icon } from '../types/pwa.d'
 import { validMimeType, validPath, validUrl } from './generics'
 
 const validIcons = (icons: Icon[]): boolean => {
-  if (!is.array(icons)) {
-    catchErr('icons', false, 'array', icons)
-  } else {
+  if (is.array(icons)) {
     icons.forEach((icon: Icon) => {
       if (!is.object(icon)) {
         catchErr('icons', true, 'array of objects', icon)
@@ -27,9 +25,12 @@ const validIcons = (icons: Icon[]): boolean => {
         }
       }
     })
-  }
 
-  return !validationErrors.length
+    return !validationErrors.length
+  } else {
+    catchErr('icons', false, 'array', icons)
+    return false
+  }
 }
 
 export default validIcons

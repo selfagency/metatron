@@ -1,4 +1,4 @@
-import { Path, Url } from './generics.d'
+import { Color, HexColor, MimeType, Path, SizeString, Url } from './generics.d'
 
 declare enum Dir {
   auto = 'auto',
@@ -29,28 +29,28 @@ declare enum AppPlatform {
   play = 'play'
 }
 
-declare interface Icon {
+interface Icon {
   src: Path | Url
-  size: string
-  type: string
+  size: SizeString
+  type: MimeType
 }
 
 interface Pwa {
   short_name: string
   categories?: string[]
-  start_url: Url
-  scope?: string
+  start_url: Path | Url
+  scope?: Path | Url
   appearance?: {
     display_mode?: Display
-    background_color?: string
-    theme_color?: string
+    background_color?: Color | HexColor
+    theme_color?: Color | HexColor
     orientation?: Orientation
     text_direction?: Dir
     icons?: Icon[]
   }
   shortcuts?: {
     name: string
-    url: Url
+    url: Path | Url
     description?: string
     icons?: Icon[]
   }[]
@@ -60,7 +60,7 @@ interface Pwa {
   }[]
   prefer_related_apps?: boolean
   iarc_rating_id?: string
-  screenshots?: string[]
+  screenshots?: Path[] | Url[]
 }
 
 export default Pwa

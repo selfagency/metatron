@@ -1,4 +1,4 @@
-declare enum Tld {
+declare enum Tlds {
   aaa = 'aaa',
   aarp = 'aarp',
   abarth = 'abarth',
@@ -1500,4 +1500,4 @@ declare enum Tld {
   zw = 'zw'
 }
 
-export default Tld
+export default Tlds

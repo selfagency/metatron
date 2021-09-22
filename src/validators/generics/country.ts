@@ -1,5 +1,5 @@
 import is from '@sindresorhus/is'
-import Country from '../types/country.d'
+import Country from '../../types/country.d'
 
 const countries = [
   'AF',

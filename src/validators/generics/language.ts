@@ -1,5 +1,5 @@
 import is from '@sindresorhus/is'
-import Language from '../types/language.d'
+import Language from '../../types/language.d'
 
 const languages = [
   'af',

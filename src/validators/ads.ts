@@ -43,10 +43,8 @@ const validAds = (ads: Ads): boolean => {
               }
             }
 
-            if (comment) {
-              if (!is.string(comment)) {
-                catchErr('ads.sellers.comment', false, 'string', comment)
-              }
+            if (comment && !is.string(comment)) {
+              catchErr('ads.sellers.comment', false, 'string', comment)
             }
           }
         })

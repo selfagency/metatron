@@ -2,6 +2,7 @@ import { Path } from './generics.d'
 
 declare enum RunMode {
   ci = 'ci',
+  generator = 'generator',
   middleware = 'middleware'
 }
 

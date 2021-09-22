@@ -7,7 +7,7 @@ import validLicense from './license'
 
 const validSettings = (settings: Settings): boolean => {
   try {
-    const runModes = ['ci', 'middleware']
+    const runModes = ['ci', 'generator', 'middleware']
 
     if (!is.object(settings)) {
       catchErr('settings', false, 'object', settings)

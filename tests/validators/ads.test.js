@@ -196,7 +196,7 @@ test('ads - bad inventory partners array', () => {
           account_type: 'RESELLER'
         }
       ],
-      inventory_partners: ['hello']
+      inventory_partners: ['hello', 'http://queso.com']
     })
   ).toBe(false)
 })

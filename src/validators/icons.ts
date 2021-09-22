@@ -1,7 +1,7 @@
 import is from '@sindresorhus/is'
 import { catchErr, validationErrors } from '../errors'
 import { Icon } from '../types/pwa.d'
-import { validPath, validUrl } from './generics'
+import { validMimeType, validPath, validUrl } from './generics'
 
 const validIcons = (icons: Icon[]): boolean => {
   if (!is.array(icons)) {
@@ -22,7 +22,7 @@ const validIcons = (icons: Icon[]): boolean => {
           catchErr('icons.sizes', true, 'valid size format (eg., `48x48`)', size)
         }
 
-        if (!type || !is.string(type)) {
+        if (!type || !validMimeType(type)) {
           catchErr('icons.type', true, 'MIME type (eg., `image/png`', type)
         }
       }

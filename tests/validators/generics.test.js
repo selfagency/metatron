@@ -5,6 +5,7 @@ const {
   validHostname,
   validIp,
   validLanguage,
+  validMimeType,
   validPath,
   validUrl
 } = require('../../dist/validators/generics.js')
@@ -188,6 +189,30 @@ test('generics - no language', () => {
   clearErrors()
 
   expect(validLanguage()).toBe(false)
+})
+
+test('generics - valid mime type', () => {
+  clearErrors()
+
+  expect(validMimeType('image/png')).toBe(true)
+})
+
+test('generics - invalid mime typee', () => {
+  clearErrors()
+
+  expect(validMimeType('octet/stream')).toBe(false)
+})
+
+test('generics - invalid mime type type', () => {
+  clearErrors()
+
+  expect(validMimeType(123456)).toBe(false)
+})
+
+test('generics - no mime type', () => {
+  clearErrors()
+
+  expect(validMimeType()).toBe(false)
 })
 
 test('generics - valid path', () => {

@@ -90,7 +90,21 @@ test('icons - invalid MIME type', () => {
     validIcons([
       {
         src: './static/icons/icon_72x72.png',
-        size: '72',
+        size: '72x72',
+        type: 'octet/stream'
+      }
+    ])
+  ).toBe(false)
+})
+
+test('icons - invalid MIME type type', () => {
+  clearErrors()
+
+  expect(
+    validIcons([
+      {
+        src: './static/icons/icon_72x72.png',
+        size: '72x72',
         type: 12345
       }
     ])

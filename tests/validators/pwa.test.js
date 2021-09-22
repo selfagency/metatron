@@ -1,5 +1,5 @@
 const validPwa = require('../../dist/validators/pwa.js').default
-const { validationErrors, errorOutput, clearErrors } = require('../../dist/errors.js')
+const { validationErrors, errorOutput, clearErrors } = require('../../dist/lib/errors.js')
 
 test('pwa - no object', () => {
   clearErrors()

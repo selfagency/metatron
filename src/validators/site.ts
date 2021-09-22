@@ -1,5 +1,5 @@
 import is from '@sindresorhus/is'
-import { catchErr, validationErrors } from '../errors'
+import { catchErr, validationErrors } from '../lib/errors'
 import Site from '../types/site.d'
 import { validCountry, validEmail, validLanguage, validPath, validUri, validUrl } from './generics'
 
@@ -32,12 +32,12 @@ const validSite = (site: Site): boolean => {
     catchErr('site.name', true, 'string', name)
   }
 
-  if (description && !is.string(description)) {
-    catchErr('site.description', false, 'string', description)
-  }
-
   if (!url || !validUrl(url)) {
     catchErr('site.url', true, 'URL', url)
+  }
+
+  if (description && !is.string(description)) {
+    catchErr('site.description', false, 'string', description)
   }
 
   if (logo && !validUrl(logo) && !validPath(logo)) {
@@ -67,36 +67,38 @@ const validSite = (site: Site): boolean => {
   if (social_media) {
     if (!is.array(social_media)) {
       catchErr('site.social_media', false, 'array', social_media)
-    } else {
-      social_media.forEach(socialMedia => {
-        if (!validUrl(socialMedia)) {
-          catchErr('site.social_media', false, 'URL', socialMedia)
-        }
-      })
+      return false
     }
+
+    social_media.forEach(socialMedia => {
+      if (!validUrl(socialMedia)) {
+        catchErr('site.social_media', false, 'URL', socialMedia)
+      }
+    })
   }
 
   if (feeds) {
     if (!is.object(feeds)) {
       catchErr('site.feeds', false, 'object', feeds)
-    } else {
-      const { rss, atom, json } = feeds
+      return false
+    }
 
-      if (rss || atom || json) {
-        if (rss && !validUrl(rss) && !validPath(rss)) {
-          catchErr('site.feeds.rss', false, 'path or URL', rss)
-        }
+    const { rss, atom, json } = feeds
 
-        if (atom && !validUrl(atom) && !validPath(atom)) {
-          catchErr('site.feeds.atom', false, 'path or URL', atom)
-        }
-
-        if (json && !validUrl(json) && !validPath(json)) {
-          catchErr('site.feeds.json', false, 'path or URL', json)
-        }
-      } else {
-        catchErr('site.feeds', true, 'URL', feeds)
+    if (rss || atom || json) {
+      if (rss && !validUrl(rss) && !validPath(rss)) {
+        catchErr('site.feeds.rss', false, 'path or URL', rss)
       }
+
+      if (atom && !validUrl(atom) && !validPath(atom)) {
+        catchErr('site.feeds.atom', false, 'path or URL', atom)
+      }
+
+      if (json && !validUrl(json) && !validPath(json)) {
+        catchErr('site.feeds.json', false, 'path or URL', json)
+      }
+    } else {
+      catchErr('site.feeds', true, 'URL', feeds)
     }
   }
 

@@ -1,5 +1,5 @@
 import is from '@sindresorhus/is'
-import { catchErr, validationErrors } from '../errors'
+import { catchErr, validationErrors } from '../lib/errors'
 import Robots from '../types/robots.d'
 import { validPath, validUrl } from './generics'
 

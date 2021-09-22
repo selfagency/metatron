@@ -1,5 +1,5 @@
 const validSecurity = require('../../dist/validators/security.js').default
-const { validationErrors, errorOutput, clearErrors } = require('../../dist/errors.js')
+const { validationErrors, errorOutput, clearErrors } = require('../../dist/lib/errors.js')
 
 test('security - valid security', () => {
   clearErrors()

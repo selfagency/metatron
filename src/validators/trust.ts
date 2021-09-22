@@ -1,5 +1,5 @@
 import is from '@sindresorhus/is'
-import { catchErr, validationErrors } from '../errors'
+import { catchErr, validationErrors } from '../lib/errors'
 import Trust from '../types/trust.d'
 import { validUrl } from './generics'
 

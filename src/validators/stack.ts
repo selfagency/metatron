@@ -1,5 +1,5 @@
 import is from '@sindresorhus/is'
-import { catchErr, validationErrors } from '../errors'
+import { catchErr, validationErrors } from '../lib/errors'
 import Stack from '../types/stack.d'
 
 const validStack = (stack: Stack): boolean => {

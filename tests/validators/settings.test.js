@@ -1,5 +1,5 @@
 const validSettings = require('../../dist/validators/settings.js').default
-const { validationErrors, errorOutput, clearErrors } = require('../../dist/errors.js')
+const { validationErrors, errorOutput, clearErrors } = require('../../dist/lib/errors.js')
 
 test('settings - valid mode', () => {
   clearErrors()
@@ -77,6 +77,36 @@ test('settings - invalid output_dir', () => {
   expect(
     validSettings({
       output_dir: 'dist/'
+    })
+  ).toBe(false)
+})
+
+test('settings - valid favicon', () => {
+  clearErrors()
+
+  expect(
+    validSettings({
+      favicon: true
+    })
+  ).toBe(true)
+})
+
+test('settings - no favicon', () => {
+  clearErrors()
+
+  expect(
+    validSettings({
+      favicon: false
+    })
+  ).toBe(true)
+})
+
+test('settings - invalid favicon', () => {
+  clearErrors()
+
+  expect(
+    validSettings({
+      favicon: 'true'
     })
   ).toBe(false)
 })

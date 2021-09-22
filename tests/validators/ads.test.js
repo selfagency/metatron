@@ -1,5 +1,5 @@
 const validAds = require('../../dist/validators/ads.js').default
-const { validationErrors, errorOutput, clearErrors } = require('../../dist/errors.js')
+const { validationErrors, errorOutput, clearErrors } = require('../../dist/lib/errors.js')
 
 test('ads - no object', () => {
   clearErrors()

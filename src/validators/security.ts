@@ -1,5 +1,5 @@
 import is from '@sindresorhus/is'
-import { catchErr, validationErrors } from '../errors'
+import { catchErr, validationErrors } from '../lib/errors'
 import Security from '../types/security.d'
 import { validEmail, validPath, validUri, validUrl } from './generics'
 

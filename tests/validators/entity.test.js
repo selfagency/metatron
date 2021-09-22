@@ -1,6 +1,6 @@
 const validEntity = require('../../dist/validators/entity.js').default
 const { validEntities } = require('../../dist/validators/entity.js')
-const { validationErrors, errorOutput, clearErrors } = require('../../dist/errors.js')
+const { validationErrors, errorOutput, clearErrors } = require('../../dist/lib/errors.js')
 
 test('entity - valid entities', () => {
   clearErrors()

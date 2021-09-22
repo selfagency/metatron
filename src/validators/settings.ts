@@ -1,5 +1,5 @@
 import is from '@sindresorhus/is'
-import { catchErr, validationErrors } from '../errors'
+import { catchErr, validationErrors } from '../lib/errors'
 import Settings from '../types/settings.d'
 import { validLicense, validPath } from './generics'
 
@@ -27,6 +27,10 @@ const validSettings = (settings: Settings): boolean => {
 
   if (output_dir && !validPath(output_dir)) {
     catchErr('settings.output_dir', false, 'path', output_dir)
+  }
+
+  if (favicon && !is.boolean(favicon)) {
+    catchErr('settings.favicon', false, 'boolean', favicon)
   }
 
   return !validationErrors.length

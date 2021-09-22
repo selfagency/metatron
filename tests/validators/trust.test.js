@@ -1,5 +1,5 @@
 const validTrust = require('../../dist/validators/trust.js').default
-const { validationErrors, errorOutput, clearErrors } = require('../../dist/errors.js')
+const { validationErrors, errorOutput, clearErrors } = require('../../dist/lib/errors.js')
 
 test('trust - invalid trust type', () => {
   clearErrors()

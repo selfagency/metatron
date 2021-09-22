@@ -1,5 +1,5 @@
 import is from '@sindresorhus/is'
-import { catchErr, validationErrors } from '../errors'
+import { catchErr, validationErrors } from '../lib/errors'
 import Pwa from '../types/pwa.d'
 import { validColor, validPath, validUrl } from './generics'
 import validIcons from './icons'

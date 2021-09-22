@@ -10,7 +10,7 @@ const {
   validPath,
   validUrl
 } = require('../../dist/validators/generics.js')
-const { validationErrors, errorOutput, clearErrors } = require('../../dist/errors.js')
+const { validationErrors, errorOutput, clearErrors } = require('../../dist/lib/errors.js')
 
 test('generics - valid color hex', () => {
   clearErrors()

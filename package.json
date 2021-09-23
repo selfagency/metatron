@@ -33,6 +33,7 @@
     "colorette": "^2.0.5",
     "consola": "^2.15.3",
     "ftconfig": "^1.1.7",
+    "handlebars": "^4.7.7",
     "is-ip": "^3.1.0",
     "spdx-license-list": "^6.4.0"
   },

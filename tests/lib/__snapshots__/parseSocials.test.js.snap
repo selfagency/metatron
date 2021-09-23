@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`valid parseSocials 1`] = `
+Array [
+  Object {
+    "service": "facebook",
+    "url": "https://facebook.com/profile",
+  },
+  Object {
+    "service": "twitter",
+    "url": "https://twitter.com/profile",
+  },
+  Object {
+    "service": "linkedin",
+    "url": "https://linkedin.com/in/profile",
+  },
+]
+`;

@@ -11,7 +11,7 @@
 settings:
   mode: run_mode
   expiry: expires_in_x_days (eg. 60)
-  path: output_dir
+  output_dir: output_dir
   license: license_identifier
   favicon: generate_favicons
 
@@ -107,6 +107,11 @@ security:
   reporting_policy: security_policy_url
   contact: security_contact_email_or_url
   public_key: security_contact_pgp_public_key_url
+  canonical: security_txt_live_url
+  acknowledgements:
+    - source
+      url
+  use_well_known: boolean
 
 robots:
   sitemap: sitemap_index_url

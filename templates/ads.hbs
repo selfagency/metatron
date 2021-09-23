@@ -1,0 +1,22 @@
+{{#if sellers}}
+{{#each sellers}}
+{{domain}}, {{publisher_id}}, {{account_type}}{{#if cert_auth_id}}, {{cert_auth_id}}{{/if}}{{#if comment}} # {{comment}}{{/if}}
+{{/each}}
+{{/if}}
+{{#if inventory_partners}}
+{{#each inventory_partners}}
+inventorypartnerdomain={{this}}
+{{/each}}
+{{/if}}
+{{#if subdomains}}
+{{#each subdomains}}
+subdomain={{this}}
+{{/each}}
+{{/if}}
+{{#if contact}}
+contact={{contact}}
+{{/if}}
+{{#if tagline}}
+
+# Made with Metatron - https://github.com/selfagency/metatron
+{{/if}}

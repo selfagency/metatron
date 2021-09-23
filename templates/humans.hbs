@@ -1,0 +1,16 @@
+/* TEAM */
+  {{#if publisher}}{{> entity publisher}}{{/if}}
+  {{#if authors}}{{#each entities}}{{> entity this}}{{/each}}{{/if}}
+
+/* THANKS */
+  {{#if credits}}{{#each entities}}{{> entity this}}{{/each}}{{/if}}
+
+/* SITE */
+  Last update: {{ (new Date).getUTCDate() }}
+  {{#if site.language}}Languages: {{#each site.language}}{{this}}, {{/each}}{{/if}}
+  {{#if site.doctype}}Doctype: {{site.doctype}}{{/if}}
+  {{#if stack}}
+    {{#if stack.components}}Components: {{#each stack.components}}{{this}}, {{/each}}{{/if}}
+    {{#if stack.standards}}Standards: {{#each stack.standards}}{{this}}, {{/each}}{{/if}}
+    {{#if stack.components}}Software: {{#each stack.software}}{{this}}, {{/each}}{{/if}}
+  {{/stack}}

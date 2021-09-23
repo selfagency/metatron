@@ -10,8 +10,10 @@ const loadConfig = () => {
       encoding: 'utf-8',
       type: 'yaml'
     })
+
     logger.success('Successfully loaded `metatron.yml`')
     if (process.env.DEBUG) logger.debug(config.toString())
+
     return config.toObject()
   } catch (error) {
     logger.error('`metatron.yml` failed to load or cannot be located at project root')

@@ -12,6 +12,7 @@ interface Settings {
   license?: string
   output_dir?: Path
   favicon?: boolean
+  tagline?: boolean
 }
 
 export default Settings

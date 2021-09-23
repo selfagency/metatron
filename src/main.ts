@@ -23,7 +23,7 @@ const main = (): void => {
   const config: Config | undefined = loadConfig()
 
   if (config) {
-    const { ads, robots, security, trust, pwa, publisher, authors, credits, site, settings } = config
+    const { ads, robots, security, trust, pwa, publisher, contributors, credits, site, settings } = config
 
     // require valid settings and site config
     const haveSettings = settings && validSettings(settings)
@@ -36,7 +36,7 @@ const main = (): void => {
       }
 
       // humans.txt
-      const haveHumans = (publisher || authors || credits) && validHumans(config)
+      const haveHumans = (publisher || contributors || credits) && validHumans(config)
       if (haveHumans) {
         generateHumansTxt(config)
       }

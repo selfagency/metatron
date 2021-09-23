@@ -12,7 +12,7 @@ interface Config {
   site: Site
   pwa?: Pwa
   publisher?: Entity
-  authors?: Entity[]
+  contributors?: Entity[]
   credits?: Entity[]
   trust?: Trust
   stack?: Stack

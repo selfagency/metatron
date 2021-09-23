@@ -231,26 +231,38 @@ test('site - invalid site.doctype', () => {
   ).toBe(false)
 })
 
-test('site - valid site.language', () => {
+test('site - valid site.languages', () => {
   clearErrors()
 
   expect(
     validSite({
       name: 'name',
       url: 'https://example.com',
-      language: 'EN'
+      languages: ['EN', 'HE']
     })
   ).toBe(true)
 })
 
-test('site - invalid site.language', () => {
+test('site - invalid site.languages', () => {
   clearErrors()
 
   expect(
     validSite({
       name: 'name',
       url: 'https://example.com',
-      language: 'XY'
+      languages: ['XY']
+    })
+  ).toBe(false)
+})
+
+test('site - invalid site.languages', () => {
+  clearErrors()
+
+  expect(
+    validSite({
+      name: 'name',
+      url: 'https://example.com',
+      languages: 'EN'
     })
   ).toBe(false)
 })

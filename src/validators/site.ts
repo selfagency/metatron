@@ -20,7 +20,7 @@ const validSite = (site: Site): boolean => {
     contact,
     country,
     doctype,
-    language,
+    languages,
     social_media,
     feeds,
     privacy_policy,
@@ -60,8 +60,16 @@ const validSite = (site: Site): boolean => {
     catchErr('site.doctype', false, 'one of: ' + docTypes.join(', '), doctype)
   }
 
-  if (language && !validLanguage(language)) {
-    catchErr('site.language', false, 'language code', language)
+  if (languages) {
+    if (is.array(languages)) {
+      languages.forEach(language => {
+        if (!validLanguage(language)) {
+          catchErr('site.languages', false, 'language code', language)
+        }
+      })
+    } else {
+      catchErr('site.languages', true, 'language code', languages)
+    }
   }
 
   if (social_media) {

@@ -69,7 +69,7 @@ publisher:
   social_media:
     - publisher_social_media_url[s]
 
-authors:
+contributors:
   - name: author_name
     role: author_role
     location: author_city_country

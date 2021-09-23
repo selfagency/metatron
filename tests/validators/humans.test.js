@@ -10,7 +10,7 @@ test('humans - valid humans', () => {
         name: 'John Doe',
         url: 'http://example.com'
       },
-      authors: [
+      contributors: [
         {
           name: 'John Doe',
           url: 'http://example.com'
@@ -66,7 +66,7 @@ test('humans - invalid author', () => {
 
   expect(
     validHumans({
-      authors: [
+      contributors: [
         {
           name: 'John Doe'
         }

@@ -5,25 +5,25 @@
 
 {{#if contributors}}
 /* TEAM */
-{{#each entities}}{{> entity this}}{{/each}}
+{{#each entities}}
+{{> entity this}}
+{{/each}}
 {{/if}}
 
 {{#if credits}}
 /* THANKS */
-{{#each entities}}{{> entity this}}{{/each}}
+{{#each entities}}
+{{> entity this}}
+{{/each}}
 {{/if}}
 
 /* SITE */
-Last update: {{ (new Date).getUTCDate() }}
-{{#if site.language}}Languages: {{#each site.language}}{{this}}; {{/each}}{{/if}}
+Last update: {{site.updated}}
+{{#if site.language}}Languages: {{site.languages}}{{/if}}
 {{#if site.doctype}}Doctype: {{site.doctype}}{{/if}}
-{{#if stack}}
-  {{#if stack.components}}Components: {{#each stack.components}}{{this}}; {{/each}}{{/if}}
-  {{#if stack.standards}}Standards: {{#each stack.standards}}{{this}}; {{/each}}{{/if}}
-  {{#if stack.components}}Software: {{#each stack.software}}{{this}}; {{/each}}{{/if}}
-{{/stack}}
+{{#if stack.components}}Components: {{stack.components}}{{/if}}
+{{#if stack.standards}}Standards: {{stack.standards}}{{/if}}
+{{#if stack.components}}devtools: {{stack.devtools}}{{/if}}
 
-{{#if tagline}}
-
-# Made with Metatron - https://github.com/selfagency/metatron
-{{/if}}
+# humans.txt (https://humanstxt.org/)
+{{#if tagline}}{{> tagline}}{{/if}}

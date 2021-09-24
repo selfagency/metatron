@@ -1114,7 +1114,7 @@ const tlds = [
   'soccer',
   'social',
   'softbank',
-  'software',
+  'devtools',
   'sohu',
   'solar',
   'solutions',

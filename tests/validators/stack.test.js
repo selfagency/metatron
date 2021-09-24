@@ -67,12 +67,12 @@ test('stack - invalid stack.standards type', () => {
   ).toBe(false)
 })
 
-test('stack - valid stack.software', () => {
+test('stack - valid stack.devtools', () => {
   clearErrors()
 
   expect(
     validStack({
-      software: ['VS Code']
+      devtools: ['VS Code']
     })
   ).toBe(true)
 })
@@ -82,7 +82,7 @@ test('stack - invalid stack.sofware', () => {
 
   expect(
     validStack({
-      software: [123456]
+      devtools: [123456]
     })
   ).toBe(false)
 })
@@ -92,7 +92,7 @@ test('stack - invalid stack.sofware type', () => {
 
   expect(
     validStack({
-      software: 'VS Code'
+      devtools: 'VS Code'
     })
   ).toBe(false)
 })

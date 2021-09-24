@@ -1,7 +1,7 @@
 interface Stack {
   components?: string[]
   standards?: string[]
-  software?: string[]
+  devtools?: string[]
 }
 
 export default Stack

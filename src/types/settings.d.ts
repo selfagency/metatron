@@ -16,3 +16,4 @@ interface Settings {
 }
 
 export default Settings
+export { RunMode }

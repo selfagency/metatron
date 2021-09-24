@@ -8,7 +8,7 @@ const validStack = (stack: Stack): boolean => {
     return false
   }
 
-  const { components, standards, software } = stack
+  const { components, standards, devtools } = stack
 
   if (components) {
     if (!is.array(components)) {
@@ -36,15 +36,15 @@ const validStack = (stack: Stack): boolean => {
     })
   }
 
-  if (software) {
-    if (!is.array(software)) {
-      catchErr('stack.software', true, 'array', software)
+  if (devtools) {
+    if (!is.array(devtools)) {
+      catchErr('stack.devtools', true, 'array', devtools)
       return false
     }
 
-    software.forEach(app => {
+    devtools.forEach(app => {
       if (!is.string(app)) {
-        catchErr('stack.software', true, 'strings', app)
+        catchErr('stack.devtools', true, 'strings', app)
       }
     })
   }

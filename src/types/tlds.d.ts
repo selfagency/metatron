@@ -1112,7 +1112,7 @@ declare enum Tlds {
   soccer = 'soccer',
   social = 'social',
   softbank = 'softbank',
-  software = 'software',
+  devtools = 'devtools',
   sohu = 'sohu',
   solar = 'solar',
   solutions = 'solutions',

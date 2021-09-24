@@ -100,7 +100,7 @@ stack:
     - packages_used
   standards:
     - standards_met (eg. "HTML5")
-  software:
+  devtools:
     - development_tools (eg. "Visual Studio Code")
 
 security:

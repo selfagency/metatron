@@ -11,6 +11,11 @@ const loadConfig = () => {
       type: 'yaml'
     })
 
+    config.modify(obj => {
+      obj.settings = Object.assign({ updated: new Date().toISOString() }, obj.settings)
+      return obj
+    })
+
     logger.success('Successfully loaded `metatron.yml`')
     if (process.env.DEBUG) logger.debug(config.toString())
 

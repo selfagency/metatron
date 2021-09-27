@@ -1,0 +1,4 @@
+{% macro sm(social_media) %}
+{% for platform in social_media %}{{platform.service}}: {{platform.url}}
+{% endfor %}
+{% endmacro %}

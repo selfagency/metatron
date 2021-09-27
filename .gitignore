@@ -188,3 +188,4 @@ dist
 # https://www.toptal.com/developers/gitignore/api/linux,macos,visualstudiocode,node,dotenv
 
 .dccache
+__output__

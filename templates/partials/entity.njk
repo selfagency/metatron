@@ -1,0 +1,9 @@
+{% from "./socialMedia.njk" import sm %}
+{% macro entities(entity) %}{% if entity.role %}{{entity.role}}: {% endif %}{% if entity.name
+%}{{entity.name}}
+{% endif %}{% if entity.contact %}Contact: {{entity.contact}}
+{% endif %}{% if entity.location %}Location: {{entity.location}}
+{% endif %}{% if entity.country %}Country: {{entity.country}}
+{% endif %}{% if entity.url %}Webpage: {{entity.url}}
+{% endif %}{% if entity.social_media %}{{sm(entity.social_media)}}
+{% endif %}{% endmacro %}

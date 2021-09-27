@@ -1,29 +1,31 @@
 import renderTemplate from '../lib/renderer'
 import { Config } from '../types/main.d'
+import validHumans from '../validators/humans'
 
-const generateHumansTxt = (config: Config): string | void => {
+const generateHumansTxt = (config: Config): string => {
+  if (!validHumans(config)) {
+    throw new Error('Missing or invalid `humans.txt` configuration')
+  }
+
   const { publisher, contributors, credits, site, stack, settings } = config
-
-  return renderTemplate(
-    'humans',
-    {
-      publisher,
-      contributors,
-      credits,
-      stack: {
-        components: stack?.components?.join(', '),
-        standards: stack?.standards?.join(', '),
-        devtools: stack?.devtools?.join(', ')
-      },
-      site: {
-        updated: new Date().toISOString(),
-        doctype: site.doctype,
-        languages: site?.languages?.join(', ')
-      },
-      tagline: settings.tagline || true
+  const data = {
+    publisher,
+    contributors,
+    credits,
+    stack: {
+      components: stack?.components,
+      standards: stack?.standards,
+      devtools: stack?.devtools
     },
-    settings
-  )
+    site: {
+      doctype: site?.doctype,
+      languages: site?.languages
+    },
+    tagline: settings.tagline || true,
+    updated: process.env.NODE_ENV !== 'test' ? new Date().toISOString() : 'date goes here'
+  }
+
+  return renderTemplate('humans', data, settings)
 }
 
 export default generateHumansTxt

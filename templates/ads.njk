@@ -1,0 +1,11 @@
+{% if sellers %}{% for seller in sellers %}{{seller.domain}}, {{seller.publisher_id}}, {{seller.account_type}}{% if
+seller.cert_auth_id %}, {{seller.cert_auth_id}}{% endif %}{% if seller.comment
+%} #{{seller.comment}}{% endif %}
+{% endfor %}{% endif %}{% if inventory_partners %}{% for partner in inventory_partners
+%}inventorypartnerdomain={{partner}}
+{% endfor %}{% endif %}{% if subdomains %}{% for subdomain in  subdomains %}subdomain={{subdomain}}
+{% endfor %}{% endif %}{% if contact %}contact={{contact}}
+{% endif %}
+{% if updated %}# Last updated {{ updated }}
+{% endif %}# ads.txt (https://iabtechlab.com/ads-txt/)
+{% if tagline %}{% include "./partials/tagline.njk" %}{% endif %}

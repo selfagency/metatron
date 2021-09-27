@@ -1,0 +1,16 @@
+{% from "./partials/entity.njk" import entities %}{% if publisher %}/* PUBLISHER */
+{{ entities(publisher) }}
+{% endif %}{% if contributors.length %}/* TEAM */
+{% for entity in contributors %}{{ entities(entity) }}
+{% endfor %}{% endif %}{% if credits.length %}/* THANKS */
+{% for entity in credits %}{{ entities(entity) }}
+{% endfor %}{% endif %}/* SITE */
+{% if site.languages %}Languages: {{ site.languages | join(', ') }}
+{% endif %}{% if site.doctype %}Doctype: {{ site.doctype }}
+{% endif %}{% if stack.components %}Components: {{ stack.components | join(', ') }}
+{% endif %}{% if stack.standards %}Standards: {{ stack.standards | join(', ') }}
+{% endif %}{% if stack.components %}Devtools: {{ stack.devtools | join(', ') }}
+{% endif %}
+{% if updated %}# Last updated {{ updated }}
+{% endif %}# humans.txt (https://humanstxt.org/)
+{% if tagline %}{% include "./partials/tagline.njk" %}{% endif %}

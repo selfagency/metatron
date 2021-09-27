@@ -1,6 +1,6 @@
 const { defaults } = require('jest-config')
 
 module.exports = {
-  testMatch: ['<rootDir>/tests/**/*.js'],
+  testMatch: ['<rootDir>/__tests__/**/*.js'],
   collectCoverage: true
 }

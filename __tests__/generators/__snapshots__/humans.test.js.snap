@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generate humans.txt - middleware 1`] = `
+"/* PUBLISHER */
+The Self Agency
+Contact: hello@self.agency
+Webpage: https://self.agency
+
+/* TEAM */
+Admin: Daniel Sieradski
+Contact: hello@self.agency
+Webpage: https://sieradski.co
+
+Editor: Jane Doe
+Contact: hello@self.agency
+Webpage: https://example.com
+
+/* THANKS */
+Master of the Universe: Ribono Shel Olam
+Contact: https://shemayim.org/contact
+Webpage: https://shemayim.org
+
+Master of the Page: Shel Silverstein
+Webpage: https://shelsilverstein.com
+
+/* SITE */
+Languages: en, yi
+Components: typescript, nunjucks
+Standards: n/a
+Devtools: vscode
+
+# Last updated date goes here
+# humans.txt (https://humanstxt.org/)
+# Made with Metatron (https://github.com/selfagency/metatron)
+
+"
+`;

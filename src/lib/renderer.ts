@@ -1,29 +1,20 @@
-import { readFileSync, writeFileSync } from 'atomically'
-import Handlebars from 'handlebars'
+import { writeFileSync } from 'atomically'
+import nunjucks from 'nunjucks'
 import Settings from '../types/settings.d'
-import logger from './logger'
 
-const partials = ['entity', 'socialMedia', 'tagline']
+nunjucks.configure({ autoescape: true })
 
-partials.forEach(partial => {
-  Handlebars.registerPartial(partial, readFileSync(`${process.cwd()}/templates/partials/${partial}.hbs`).toString())
-})
+const renderTemplate = (txtFile: string, vars: {}, settings: Settings): string => {
+  // const template = readFileSync().toString()
+  const rendered = nunjucks.render(`${process.cwd()}/templates/${txtFile}.njk`, vars)
 
-const renderTemplate = (txtFile: string, vars: {}, settings: Settings): string | void => {
-  try {
-    const template = readFileSync(`${process.cwd()}/templates/${txtFile}.hbs`).toString()
-    const rendered = Handlebars.compile(template)(vars)
-
-    if (settings.mode !== 'middleware') {
-      writeFileSync(`${settings.output_dir || process.cwd()}/${txtFile}.txt`, rendered, {
-        fsyncWait: false
-      })
-    }
-
-    return rendered
-  } catch (error) {
-    logger.error(error)
+  if (settings.mode !== 'middleware') {
+    writeFileSync(`${settings.output_dir || process.cwd()}/${txtFile}.txt`, rendered, {
+      fsyncWait: false
+    })
   }
+
+  return rendered
 }
 
 export default renderTemplate

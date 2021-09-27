@@ -13,6 +13,7 @@ interface Settings {
   output_dir?: Path
   favicon?: boolean
   tagline?: boolean
+  updated?: string
 }
 
 export default Settings

@@ -3,26 +3,24 @@ import { Config } from '../types/main.d'
 import validEntity, { validEntities } from './entity'
 
 const validHumans = (config: Config) => {
-  if (config && is.object(config) && (config.publisher || config.contributors || config.credits)) {
+  if (config && is.object(config)) {
     const { publisher, contributors, credits } = config
     let validHumans: boolean[] = []
 
-    if ((publisher && validEntity(publisher)) || !publisher) {
-      validHumans.push(true)
-    } else {
-      validHumans.push(false)
+    if (!publisher && !contributors && !credits) {
+      return false
     }
 
-    if ((contributors && validEntities(contributors)) || !contributors) {
-      validHumans.push(true)
-    } else {
-      validHumans.push(false)
+    if (publisher) {
+      validHumans.push(validEntity(publisher))
     }
 
-    if ((credits && validEntities(credits)) || !credits) {
-      validHumans.push(true)
-    } else {
-      validHumans.push(false)
+    if (contributors) {
+      validHumans.push(validEntities(contributors))
+    }
+
+    if (credits) {
+      validHumans.push(validEntities(credits))
     }
 
     return !validHumans.includes(false)

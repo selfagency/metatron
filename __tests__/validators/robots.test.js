@@ -7,10 +7,10 @@ test('robots - valid robots', () => {
   expect(
     validRobots({
       sitemap: 'https://example.com/sitemap.xml',
-      crawl_delay: 60,
       directives: [
         {
           user_agent: '*',
+          crawl_delay: 60,
           allow: ['/'],
           disallow: ['/admin/*']
         },
@@ -55,26 +55,6 @@ test('robots - invalid robots.sitemap', () => {
   ).toBe(false)
 })
 
-test('robots - valid robots.crawl_delay', () => {
-  clearErrors()
-
-  expect(
-    validRobots({
-      crawl_delay: 60
-    })
-  ).toBe(true)
-})
-
-test('robots - invalid robots.crawl_delay', () => {
-  clearErrors()
-
-  expect(
-    validRobots({
-      crawl_delay: 'five'
-    })
-  ).toBe(false)
-})
-
 test('robots - valid robots.directives', () => {
   clearErrors()
 
@@ -83,6 +63,7 @@ test('robots - valid robots.directives', () => {
       directives: [
         {
           user_agent: '*',
+          crawl_delay: 1,
           allow: ['/*'],
           disallow: ['/admin/*']
         }

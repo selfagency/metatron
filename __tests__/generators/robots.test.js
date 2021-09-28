@@ -5,10 +5,10 @@ const output_dir = '/__tests__/__output__'
 
 const robots = {
   sitemap: '/sitemap.xml',
-  crawl_delay: 5,
   directives: [
     {
       user_agent: '*',
+      crawl_delay: 1,
       allow: ['/'],
       disallow: ['/admin', '/cache']
     },

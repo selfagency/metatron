@@ -48,6 +48,7 @@ const validEntity = (entity: Entity): boolean => {
       catchErr('entity.social_media', false, 'array', social_media)
     } else {
       social_media.forEach(socialMedia => {
+        console.log(validUrl(socialMedia))
         if (!validUrl(socialMedia)) {
           catchErr('entity.social_media', true, 'URL', socialMedia)
         }

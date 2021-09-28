@@ -15,7 +15,7 @@ const parseSocials = (socials: Url[]) => {
 
   return socials.map(url => {
     return {
-      service: url.split('://')[1].split('.')[0],
+      service: url.replace(/\/\//, '').replace(/www\./, '').split(':')[1].split('.')[0],
       url
     }
   })

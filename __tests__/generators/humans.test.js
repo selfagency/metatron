@@ -9,14 +9,16 @@ const humans = {
   publisher: {
     name: 'The Self Agency',
     contact: 'hello@self.agency',
-    url: 'https://self.agency'
+    url: 'https://self.agency',
+    social_media: ['https://www.facebook.com/selfagency', 'https://www.instagram.com/selfagency']
   },
   contributors: [
     {
       name: 'Daniel Sieradski',
       role: 'Admin',
       contact: 'hello@self.agency',
-      url: 'https://sieradski.co'
+      url: 'https://sieradski.co',
+      social_media: ['https://www.facebook.com/selfagency', 'https://www.instagram.com/selfagency']
     },
     {
       name: 'Jane Doe',

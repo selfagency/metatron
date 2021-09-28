@@ -1,4 +1,5 @@
 import is from '@sindresorhus/is'
+import parse from 'url-parse'
 import validTld from './tld'
 
 const validUrl = (url: string): boolean => {
@@ -27,14 +28,10 @@ const validUrl = (url: string): boolean => {
   ]
 
   if (url && is.urlString(url)) {
-    const prefix = url.split(':')[0]
+    const parsed = parse(url.replace('www.', ''))
+    const hostnameBits = parsed.hostname.split('.')
 
-    url = url.replace(new RegExp(prefix + ':'), '')
-    url = url.replace(new RegExp('//'), '')
-
-    const suffix = url.includes('/') ? url.split('/')[0].split('.')[1] : url.split('.')[1]
-
-    return uriPrefixes.includes(prefix) && validTld(suffix)
+    return uriPrefixes.includes(parsed.protocol.replace(':', '')) && validTld(hostnameBits[hostnameBits.length - 1])
   } else {
     return false
   }

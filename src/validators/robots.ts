@@ -9,12 +9,16 @@ const validDirective = (directive: Directive): boolean => {
     return false
   }
 
-  const { user_agent, allow, disallow } = directive
+  const { user_agent, crawl_delay, allow, disallow } = directive
   const noAllow = (allow && !is.array(allow)) || (is.array(allow) && allow.length === 0)
   const noDisallow = (disallow && !is.array(disallow)) || (is.array(disallow) && disallow.length === 0)
 
   if (!user_agent || !is.string(user_agent)) {
-    catchErr('robots.directives.user_agent', true, 'string', user_agent)
+    catchErr('robots.directives.directive.user_agent', true, 'string', user_agent)
+  }
+
+  if (crawl_delay && !is.number(crawl_delay)) {
+    catchErr('robots.directives.directive.crawl_delay', false, 'number', crawl_delay)
   }
 
   if (noAllow && noDisallow) {
@@ -23,23 +27,23 @@ const validDirective = (directive: Directive): boolean => {
   }
 
   if (noAllow) {
-    catchErr('robots.directives.allow', true, 'array', allow)
+    catchErr('robots.directives.directive.allow', true, 'array', allow)
     return false
   } else if (allow) {
     allow.forEach(path => {
       if (!validPath(path)) {
-        catchErr('robots.directives.allow.path', true, 'path', path)
+        catchErr('robots.directives.directive.allow.path', true, 'path', path)
       }
     })
   }
 
   if (noDisallow) {
-    catchErr('robots.directives.disallow', true, 'array', allow)
+    catchErr('robots.directives.directive..disallow', true, 'array', allow)
     return false
   } else if (disallow) {
     disallow.forEach(path => {
       if (!validPath(path)) {
-        catchErr('robots.directives.disallow.path', true, 'path', path)
+        catchErr('robots.directives.directive.disallow.path', true, 'path', path)
       }
     })
   }
@@ -53,18 +57,14 @@ const validRobots = (robots: Robots): boolean => {
     return false
   }
 
-  const { sitemap, crawl_delay, directives } = robots
+  const { sitemap, directives } = robots
 
-  if (!sitemap && !crawl_delay && !directives) {
-    catchErr('robots.sitemap', true, 'at least one of: sitemap, crawl_delay, directives', sitemap)
+  if (!sitemap && !directives) {
+    catchErr('robots.sitemap', true, 'at least one of: sitemap, directives', sitemap)
   }
 
   if (sitemap && !validPath(sitemap) && !validUrl(sitemap)) {
     catchErr('robots.sitemap', false, 'path or URL', sitemap)
-  }
-
-  if (crawl_delay && !is.number(crawl_delay)) {
-    catchErr('robots.crawl_delay', false, 'number', crawl_delay)
   }
 
   if (directives && !is.array(directives)) {

@@ -9,7 +9,8 @@ test('entity - valid entities', () => {
     validEntities([
       {
         name: 'John Doe',
-        url: 'http://example.com'
+        url: 'http://example.com',
+        social_media: ['https://facebook.com/whatever']
       },
       {
         name: 'John Doe',
@@ -46,7 +47,8 @@ test('entity - valid entity', () => {
   expect(
     validEntity({
       name: 'John Doe',
-      url: 'http://example.com'
+      url: 'http://example.com',
+      social_media: ['https://facebook.com/whatever', 'https://www.twitter.com/whatever']
     })
   ).toBe(true)
 })

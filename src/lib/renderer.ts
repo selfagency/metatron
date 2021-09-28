@@ -2,7 +2,7 @@ import { writeFileSync } from 'atomically'
 import nunjucks from 'nunjucks'
 import Settings from '../types/settings.d'
 
-nunjucks.configure({ autoescape: true })
+nunjucks.configure({ autoescape: false })
 
 const renderTemplate = (txtFile: string, vars: {}, settings: Settings): string => {
   // const template = readFileSync().toString()

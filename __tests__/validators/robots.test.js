@@ -8,20 +8,31 @@ test('robots - valid robots', () => {
     validRobots({
       sitemap: 'https://example.com/sitemap.xml',
       crawl_delay: 60,
-      allow: [
+      directives: [
         {
           user_agent: '*',
-          paths: ['/*']
-        }
-      ],
-      disallow: [
+          allow: ['/'],
+          disallow: ['/admin/*']
+        },
         {
-          user_agent: '*',
-          paths: ['/admin/*']
+          user_agent: 'Baiduspider',
+          disallow: ['/']
         }
       ]
     })
   ).toBe(true)
+})
+
+test('invalid robots', () => {
+  clearErrors()
+
+  expect(validRobots({})).toBe(false)
+})
+
+test('robots - invalid robots type', () => {
+  clearErrors()
+
+  expect(validRobots('hello')).toBe(false)
 })
 
 test('robots - valid robots.sitemap', () => {
@@ -64,109 +75,104 @@ test('robots - invalid robots.crawl_delay', () => {
   ).toBe(false)
 })
 
-test('robots - valid robots.directive', () => {
+test('robots - valid robots.directives', () => {
   clearErrors()
 
   expect(
     validRobots({
-      allow: [
+      directives: [
         {
           user_agent: '*',
-          paths: ['/*']
+          allow: ['/*'],
+          disallow: ['/admin/*']
         }
       ]
     })
   ).toBe(true)
 })
 
-test('robots - invalid robots.directive', () => {
+test('robots - invalid robots.directives.allow type', () => {
   clearErrors()
 
   expect(
     validRobots({
-      allow: ['snarf']
+      directives: [
+        {
+          user_agent: '*',
+          allow: ['snarf']
+        }
+      ]
     })
   ).toBe(false)
 })
 
-test('robots - invalid robots.directive type', () => {
+test('robots - invalid robots.directives.disallow type', () => {
   clearErrors()
 
   expect(
     validRobots({
-      disallow: 'snarf'
+      directives: [
+        {
+          user_agent: '*',
+          disallow: ['snarf']
+        }
+      ]
     })
   ).toBe(false)
 })
 
-test('robots - invalid robots.directive.user_agent', () => {
+test('robots - invalid robots.directives.user_agent', () => {
   clearErrors()
 
   expect(
     validRobots({
-      allow: [
+      directives: [
         {
           user_agent: null,
-          paths: ['/*']
+          allow: ['/*'],
+          disallow: ['/admin/*']
         }
       ]
     })
   ).toBe(false)
 })
 
-test('robots - valid robots.directive.paths', () => {
+test('robots - invalid robots.directives', () => {
   clearErrors()
 
   expect(
     validRobots({
-      allow: [
-        {
-          user_agent: '*',
-          paths: ['/*']
-        }
-      ]
-    })
-  ).toBe(true)
-})
-
-test('robots - invalid robots.directive.paths', () => {
-  clearErrors()
-
-  expect(
-    validRobots({
-      allow: [
-        {
-          user_agent: '*',
-          paths: '/*'
-        }
-      ]
+      directives: [{}]
     })
   ).toBe(false)
 })
 
-test('robots - invalid robots.directive.paths.path', () => {
+test('robots - invalid robots.directives type', () => {
   clearErrors()
 
-  expect(
-    validRobots({
-      allow: [
-        {
-          user_agent: '*',
-          paths: ['arf']
-        }
-      ]
-    })
-  ).toBe(false)
+  expect(validRobots({ directives: {} })).toBe(false)
 })
 
-test('robots - invalid robots.directive type', () => {
+test('robots - invalid robots.directives.directive type', () => {
   clearErrors()
 
-  expect(validRobots({ allow: 'hola' })).toBe(false)
+  expect(validRobots({ directives: [12345] })).toBe(false)
 })
 
-test('robots - invalid robots type', () => {
+test('robots - invalid robots.directives.directive.allow type', () => {
   clearErrors()
 
-  expect(validRobots('hello')).toBe(false)
+  expect(validRobots({ directives: [{ allow: '*' }] })).toBe(false)
+})
+
+test('robots - invalid robots.directives.directive.disallow type', () => {
+  clearErrors()
+
+  expect(validRobots({ directives: [{ disallow: '*' }] })).toBe(false)
+})
+
+test('robots - invalid robots.directives.directive.allow/disallow type', () => {
+  clearErrors()
+
+  expect(validRobots({ directives: [{ allow: '/', disallow: '/admin' }] })).toBe(false)
 })

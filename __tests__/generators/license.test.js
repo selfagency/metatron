@@ -1,6 +1,8 @@
 const generateLicenseTxt = require('../../dist/generators/license').default
 const { readFileSync } = require('atomically')
 
+const output_dir = '/__tests__/__output__'
+
 const license = {
   publisher: {
     name: 'The Self Agency',
@@ -19,12 +21,12 @@ test('generate license.txt - static', () => {
     settings: {
       ...license.settings,
       mode: 'generator',
-      output_dir: './__tests__/__output__',
+      output_dir: `.${output_dir}`,
       tagline: true
     }
   })
 
-  const output = readFileSync(`${process.cwd()}/__tests__/__output__/license.txt`).toString()
+  const output = readFileSync(`${process.cwd()}${output_dir}/license.txt`).toString()
   expect(output).toEqual(licenseTxt)
 })
 

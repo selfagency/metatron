@@ -10,8 +10,9 @@ const generateLicenseTxt = (config: Config): void | string => {
   if (!is.nullOrUndefined(license) && !is.nullOrUndefined(publisher)) {
     const data = {
       license: spdxLicenseList[license].licenseText
-        .replace('<year>', new Date().getFullYear().toString())
-        .replace('<copyright holders>', publisher.name),
+        .replace(/\&quot\;/g, '"')
+        .replace(/\<year\>/g, new Date().getFullYear().toString())
+        .replace(/\<copyright holders\>/g, publisher.name),
       updated: process.env.NODE_ENV !== 'test' ? new Date().toISOString() : 'date goes here'
     }
 

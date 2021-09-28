@@ -2,7 +2,7 @@ import ftconfig from 'ftconfig'
 import { WriteConfig } from 'ftconfig/lib/WriteConfig'
 import path from 'path'
 import { Config } from '../types/main.d'
-import logger from './logger'
+import { logger } from './utils'
 
 const loadConfig = () => {
   try {

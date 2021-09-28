@@ -1,5 +1,5 @@
 import { bold, cyan, red, yellow } from 'colorette'
-import logger from './logger'
+import { logger } from './utils'
 
 let validationErrors: Error[] = []
 

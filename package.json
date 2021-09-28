@@ -40,6 +40,7 @@
     "spdx-license-list": "^6.4.0"
   },
   "devDependencies": {
+    "@types/he": "^1.1.2",
     "@types/node": "^16.9.4",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",

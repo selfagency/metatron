@@ -1,0 +1,11 @@
+{% if sitemap %}Sitemap: {{ sitemap }}
+{% endif %}{% if crawl_delay %}crawl-delay: {{crawl_delay}}{% endif %}
+
+{% if directives %}{% for directive in directives %}{% if directive.user_agent %}User-agent: {{ directive.user_agent }}
+{% endif %}{% if directive.allow %}{% for allowed in directive.allow %}Allow: {{ allowed }}
+{% endfor %}{% endif %}{% if directive.disallow %}{% for disallowed in directive.disallow
+%}Disallow: {{ disallowed }}
+{% endfor %}{% endif %}
+{% endfor %}{% endif %}{% if updated %}# Last updated {{ updated }}{% endif %}
+# robots.txt (http://www.robotstxt.org/robotstxt.html)
+{% if tagline %}{% include "./partials/tagline.njk" %}{% endif %}

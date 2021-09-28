@@ -1,26 +1,45 @@
 import is from '@sindresorhus/is'
 import { catchErr, validationErrors } from '../lib/errors'
-import Robots from '../types/robots.d'
+import Robots, { Directive } from '../types/robots.d'
 import { validPath, validUrl } from './generics'
 
-const validDirective = (directive: { user_agent: string; paths: string[] }, directiveType: string): boolean => {
+const validDirective = (directive: Directive): boolean => {
   if (!is.object(directive)) {
-    catchErr('robots.' + directiveType, true, 'array of objects', directive)
+    catchErr('robots.directives', true, 'array of objects', directive)
     return false
   }
 
-  const { user_agent, paths } = directive
+  const { user_agent, allow, disallow } = directive
+  const noAllow = (allow && !is.array(allow)) || (is.array(allow) && allow.length === 0)
+  const noDisallow = (disallow && !is.array(disallow)) || (is.array(disallow) && disallow.length === 0)
 
   if (!user_agent || !is.string(user_agent)) {
-    catchErr('robots.' + directiveType + '.user_agent', true, 'string', user_agent)
+    catchErr('robots.directives.user_agent', true, 'string', user_agent)
   }
 
-  if (!paths || !is.array(paths)) {
-    catchErr('robots.' + directiveType + '.paths', true, 'array', paths)
-  } else {
-    paths.forEach(path => {
+  if (noAllow && noDisallow) {
+    catchErr('robots.directives.directives', true, 'paths', { allow, disallow })
+    return false
+  }
+
+  if (noAllow) {
+    catchErr('robots.directives.allow', true, 'array', allow)
+    return false
+  } else if (allow) {
+    allow.forEach(path => {
       if (!validPath(path)) {
-        catchErr('robots.' + directiveType + '.paths.path', true, 'path', path)
+        catchErr('robots.directives.allow.path', true, 'path', path)
+      }
+    })
+  }
+
+  if (noDisallow) {
+    catchErr('robots.directives.disallow', true, 'array', allow)
+    return false
+  } else if (disallow) {
+    disallow.forEach(path => {
+      if (!validPath(path)) {
+        catchErr('robots.directives.disallow.path', true, 'path', path)
       }
     })
   }
@@ -34,7 +53,11 @@ const validRobots = (robots: Robots): boolean => {
     return false
   }
 
-  const { sitemap, crawl_delay, allow, disallow } = robots
+  const { sitemap, crawl_delay, directives } = robots
+
+  if (!sitemap && !crawl_delay && !directives) {
+    catchErr('robots.sitemap', true, 'at least one of: sitemap, crawl_delay, directives', sitemap)
+  }
 
   if (sitemap && !validPath(sitemap) && !validUrl(sitemap)) {
     catchErr('robots.sitemap', false, 'path or URL', sitemap)
@@ -44,23 +67,13 @@ const validRobots = (robots: Robots): boolean => {
     catchErr('robots.crawl_delay', false, 'number', crawl_delay)
   }
 
-  if (allow && !is.array(allow)) {
-    catchErr('robots.allow', false, 'array', allow)
+  if (directives && !is.array(directives)) {
+    catchErr('robots.directives', false, 'array', directives)
   }
 
-  if (allow && is.array(allow)) {
-    allow.forEach(directive => {
-      validDirective(directive, 'allow')
-    })
-  }
-
-  if (disallow && !is.array(disallow)) {
-    catchErr('robots.disallow', false, 'array', disallow)
-  }
-
-  if (disallow && is.array(disallow)) {
-    disallow.forEach(directive => {
-      validDirective(directive, 'disallow')
+  if (directives && is.array(directives)) {
+    directives.forEach(directive => {
+      validDirective(directive)
     })
   }
 
